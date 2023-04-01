@@ -1,0 +1,7 @@
+elpa/
+etc/
+server/
+transient/
+var/
+userconfig.el
+userconfig.elc
