@@ -1,10 +1,10 @@
 #+title: GNU Emacs Literate Configuration
-#+author: hoaxdream
+#+author: artjeremie
 #+date: [2022-08-07 Sun]
 #+description: Personal GNU Emacs Configuration for Windows 10
 #+startup: overview
 
-* Table of Contents                                                  :Toc:Quote:
+* Table of Contents                                                                                     :Toc:Quote:
 :PROPERTIES:
 :Visibility: folded
 :END:
@@ -33,7 +33,7 @@
 - [[#snippet][Snippet]]
 - [[#completion][Completion]]
   - [[#corfu][Corfu]]
-  - [[#verticoco][Vertico&Co]]
+  - [[#vertico-and-friends][Vertico and friends]]
 - [[#languages][Languages]]
   - [[#lua][Lua]]
   - [[#python][Python]]
@@ -49,20 +49,22 @@
 
 * Overview
 This *Org* document is a literate configuration for GNU Emacs. Download and
-install all packages with function =tlj-rebuild-pkg= =C-c u=. Code blocks written
-here will automatically extracted after Emacs restart and will generate main
-configuration =userconfig.el=.
+install all packages with function =art-package-update= =C-c u=. Code blocks
+written here will automatically extracted after Emacs restart and will
+generate main configuration =artconfig.el=.
+
+[[./artjeremie.png]]
 
 * Elisp header
-Header for =userconfig.el=.
+Header for =artconfig.el=.
 
 #+begin_src emacs-lisp
-;;; userconfig.el --- Emacs Personal Configuration -*- lexical-binding: t -*-
+;;; artconfig.el --- Emacs Personal Configuration -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
@@ -156,7 +158,7 @@ Garbage-collect on focus out, Emacs /should/ feel snappier overall.
 
 #+begin_src emacs-lisp
 (add-function :after after-focus-change-function
-              (defun tlj-garbage-collect-maybe ()
+              (defun art-garbage-collect-maybe ()
                 (unless (frame-focus-state)
                   (garbage-collect))))
 #+end_src
@@ -184,7 +186,7 @@ Set and unset some keyinds.
 Download [[https://sourceforge.net/projects/ezwinports/files/][hunspell-bin.zip]].
 
 #+begin_src emacs-lisp
-(setq-default ispell-program-name "c:/Users/hoaxdream/hunspell/bin/hunspell")
+(setq-default ispell-program-name "c:/Users/artjeremie/hunspell/bin/hunspell")
 (setq ispell-personal-dictionary "en_US")
 (setq-default ispell-local-dictionary "en_US")
 (setq-default ispell-local-dictionary-alist
@@ -225,14 +227,15 @@ Convenient way to manage files and directories inside Emacs.
 #+end_src
 
 * Gnus
-Emacs package for reading and sending e-mail.
+Emacs package for reading and sending mail.
 
-| *Keybind* | *Command*                          | *Description*  |
-|---------+----------------------------------+--------------|
-| =[#]=     | gnus-summary-mark-as-processable | /Mark mail/    |
-| =[B DEL]= | gnus-summary-delete-article      | /Delete mail/  |
-| =[B m]=   | gnus-summary-move-article        | /Move mail/    |
-| =[m]=     | gnus-summary-mail-other-window   | /Compose mail/ |
+| *Key*     | *Command*                          | *Description*       |
+|---------+----------------------------------+-------------------|
+| =[#]=     | gnus-summary-mark-as-processable | /Mark mail/         |
+| =[B DEL]= | gnus-summary-delete-article      | /Delete mail/       |
+| =[B m]=   | gnus-summary-move-article        | /Move mail/         |
+| =[m]=     | gnus-summary-mail-other-window   | /Compose new mail/  |
+| =[E]=     | gnus-summary-mark-as-expirable   | /Mark as expirable/ |
 
 #+begin_src emacs-lisp
 (setq user-mail-address "artjeremie@gmail.com")
@@ -247,20 +250,24 @@ Emacs package for reading and sending e-mail.
 
 (setq-default smtpmail-smtp-server "smtp.gmail.com")
 (setq-default smtpmail-smtp-service 587)
-
 (setq-default message-send-mail-function 'smtpmail-send-it)
+
 (setq-default gnus-use-dribble-file nil)
 (setq-default gnus-read-newsrc-file nil)
 (setq-default gnus-save-newsrc-file nil)
+
 (setq-default gnus-novice-user nil)
 (setq-default gnus-expert-user t)
+
 (setq-default message-kill-buffer-on-exit t)
 
 (setq-default mail-header-separator (purecopy "*****"))
 (setq-default message-elide-ellipsis "\n> [... %l lines elided]\n")
 (setq-default compose-mail-user-agent-warnings nil)
 (setq-default nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
+;; (setq-default nnmail-expiry-target "nnimap+gmail:[Gmail]/Drafts")
 (setq-default nnmail-expiry-wait 'immediate)
+
 (setq-default mail-signature "artjeremie\nhttps://github.com/artjeremie\n")
 (setq-default message-signature "artjeremie\nhttps://github.com/artjeremie\n")
 (setq-default mm-body-charset-encoding-alist  '((utf-8 . base64)))
@@ -269,15 +276,15 @@ Emacs package for reading and sending e-mail.
               '((not gnus-thread-sort-by-date)
                 (not gnus-thread-sort-by-number)))
 
-(setq-default message-citation-line-function 'message-insert-formatted-citation-line)
 (setq-default message-ignored-cited-headers "")
+(setq-default message-citation-line-function
+              'message-insert-formatted-citation-line)
 (setq-default message-citation-line-format
               (concat "> From: %f\n"
                       "> Date: %a, %e %b %Y %T %z\n"
                       ">"))
 
-(setq-default gnus-parameters
-              '((".*" (display . all))))
+(setq-default gnus-parameters '((".*" (display . all))))
 
 (global-set-key (kbd "C-c m") 'gnus)
 #+end_src
@@ -285,17 +292,17 @@ Emacs package for reading and sending e-mail.
 * Feeds
 Extensible web feed reader for Emacs.
 
-| *Keybind* | *Command*                        | *Description*               |
-|---------+--------------------------------+---------------------------|
-| =[b]=     | elfeed-search-browse-url       | /Open article in browser/   |
-| =[G]=     | elfeed-search-fetch            | /Fetch updates from server/ |
-| =[s]=     | elfeed-search-live-filter      | /Update search filter/      |
-| =[c]=     | elfeed-search-clear-filter     | /Clear search filter/       |
-| =[r]=     | elfeed-search-untag-all-unread | /Mark as unread/            |
-| =[u]=     | elfeed-search-tag-all-unread   | /Mark as read/              |
-| =[g]=     | elfeed-search-update--force    | /Refresh and remove unread/ |
-| =[q]=     | elfeed-search-quit-window      | /Quit browser/              |
-| =[v]=     | tlj-elfeed-play-with-mpv       | /Open youtube feeds in mpv/ |
+| *Key* | *Command*                        | *Description*                |
+|-----+--------------------------------+----------------------------|
+| =[b]= | elfeed-search-browse-url       | /Open article in browser/    |
+| =[G]= | elfeed-search-fetch            | /Fetch  updates from server/ |
+| =[s]= | elfeed-search-live-filter      | /Update search filter/       |
+| =[c]= | elfeed-search-clear-filter     | /Clear search filter/        |
+| =[r]= | elfeed-search-untag-all-unread | /Mark as unread/             |
+| =[u]= | elfeed-search-tag-all-unread   | /Mark as read/               |
+| =[g]= | elfeed-search-update--force    | /Refresh and remove unread/  |
+| =[q]= | elfeed-search-quit-window      | /Quit browser/               |
+| =[v]= | art-elfeed-play-with-mpv       | /Open youtube feeds in mpv/  |
 
 #+begin_src emacs-lisp
 (defvar elfeed-show-entry)
@@ -306,8 +313,8 @@ Extensible web feed reader for Emacs.
 
 (autoload 'elfeed-search-selected "elfeed-search")
 
-(defun tlj-elfeed-play-with-mpv ()
-  "Open Youtube feeds in mpv."
+(defun art-elfeed-play-with-mpv ()
+  "Open youtube feeds in mpv."
   (interactive)
   (start-process "elfeed-mpv" nil "mpv"
                  (elfeed-entry-link
@@ -316,8 +323,8 @@ Extensible web feed reader for Emacs.
 
 (autoload 'elfeed-untag "elfeed-db")
 
-(defun tlj-elfeed-play-with-mpv-mark-entry ()
-  "Play Youtube feeds in mpv with mark entry unread."
+(defun art-elfeed-play-with-mpv-mark-entry ()
+  "Play youtube feeds in mpv with mark entry unread."
   (interactive)
   (let ((entries (elfeed-search-selected)))
     (cl-loop for entry in entries
@@ -330,33 +337,28 @@ Extensible web feed reader for Emacs.
 
 (autoload 'elfeed-search-set-filter "elfeed-search")
 
-(defun tlj-elfeed-show-daily-feeds ()
-  "Show daily feeds."
+(defun art-efleed-show-daily-feeds ()
+  "Filter entries to show daily feeds."
   (interactive)
   (elfeed-search-set-filter "@1-day-ago"))
 
-(defun tlj-elfeed-show-weekly-feeds ()
-  "Show weekly feeds."
+(defun art-efleed-show-weekly-feeds ()
+  "Filter entries to show weekly feeds."
   (interactive)
   (elfeed-search-set-filter "@1-week-ago"))
 
-(defun tlj-elfeed-show-monthly-feeds ()
-  "Show monthly feeds."
+(defun art-elfeed-show-monthly-feeds ()
+  "Filter entries to show weekly feeds."
   (interactive)
   (elfeed-search-set-filter "@1-month-ago"))
 
-(let ((my-feeds "c:/Users/hoaxdream/Dropbox/emacs/elfeed/feeds.el"))
-  (when (file-exists-p my-feeds)
-    (load my-feeds nil t)))
-
-(setq-default elfeed-db-directory "~/.emacs.d/var/elfeed/")
-
-(with-eval-after-load 'elfeed
+(let ((myfeeds "c:/Users/artjeremie/Dropbox/emacs/elfeed/feeds.el"))
   (when (boundp 'elfeed-search-mode-map)
-    (define-key elfeed-search-mode-map (kbd "D") 'tlj-elfeed-show-daily-feeds)
-    (define-key elfeed-search-mode-map (kbd "W") 'tlj-elfeed-show-weekly-feeds)
-    (define-key elfeed-search-mode-map (kbd "M") 'tlj-elfeed-show-monthly-feeds)
-    (define-key elfeed-search-mode-map (kbd "v") 'tlj-elfeed-play-with-mpv)))
+    (define-key elfeed-search-mode-map (kbd "D") 'art-elfeed-show-daily-feeds)
+    (define-key elfeed-search-mode-map (kbd "W") 'art-elfeed-show-weekly-feeds)
+    (define-key elfeed-search-mode-map (kbd "M") 'art-elfeed-show-monthly-feeds)
+    (define-key elfeed-search-mode-map (kbd "v") 'art-elfeed-play-with-mpv)
+    (define-key elfeed-search-mode-map (kbd "V") 'art-elfeed-play-with-mpv-mark-entry)))
 
 (global-set-key (kbd "C-c w") 'elfeed)
 #+end_src
@@ -368,17 +370,17 @@ Best for keeping notes, maintaining *TODO* lists and planning projects.
 Preferred settings for =org-mode=.
 
 #+begin_src emacs-lisp
-(defconst tlj-notes-path
-  (expand-file-name "notes.org" "c:/Users/hoaxdream/Dropbox/emacs/org-notes")
+(defconst art-notes-path
+  (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/org-notes")
   "Path to personal notes file.")
 
-(defun tlj-find-notes ()
+(defun art-find-notes ()
   "Open personal notes file."
   (interactive)
-  (find-file tlj-notes-path))
+  (find-file art-notes-path))
 
-(setq-default org-directory `(,tlj-notes-path))
-(setq-default org-default-notes-file tlj-notes-path)
+(setq-default org-directory "c:/Users/artjeremie/Dropbox/emacs/org-notes")
+(setq-default org-default-notes-file art-notes-path)
 (setq-default org-startup-indented nil)
 (setq-default org-edit-src-content-indentation 0)
 (setq-default org-src-window-setup 'current-window)
@@ -409,27 +411,27 @@ Preferred settings for =org-mode=.
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
 
-(global-set-key (kbd "C-c n") 'tlj-find-notes)
+(global-set-key (kbd "C-c n") 'art-find-notes)
 #+end_src
 
 ** Agenda
 Planning and scheduling.
 
 #+begin_src emacs-lisp
-(defconst tlj-agenda-path
-  (expand-file-name "agenda.org" "c:/Users/hoaxdream/Dropbox/emacs/org-agenda")
+(defconst art-agenda-path
+  (expand-file-name "agenda.org" "c:/Users/artjeremie/Dropbox/emacs/org-agenda")
   "Path to agenda file.")
 
-(defun tlj-find-agenda ()
+(defun art-find-agenda ()
   "Open agenda file."
   (interactive)
-  (find-file tlj-agenda-path))
+  (find-file art-agenda-path))
 
-(defun tlj-org-agenda-view-startup ()
+(defun art-org-agenda-view-startup ()
   "Agenda view schedule on Emacs startup."
   (org-agenda nil "c"))
 
-(setq-default org-agenda-files `(,tlj-agenda-path))
+(setq-default org-agenda-files `(,art-agenda-path))
 (setq-default org-agenda-include-diary t)
 (setq-default org-agenda-timegrid-use-ampm 1)
 (setq-default org-agenda-start-on-weekday 1)
@@ -518,9 +520,9 @@ Planning and scheduling.
                                "\nUpcoming two weeks\n")))))))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-;") 'tlj-find-agenda)
+(global-set-key (kbd "C-;") 'art-find-agenda)
 
-(add-hook 'after-init-hook 'tlj-org-agenda-view-startup)
+(add-hook 'after-init-hook 'art-org-agenda-view-startup)
 #+end_src
 
 ** Capture
@@ -529,9 +531,8 @@ Quickly store notes or templates.
 #+begin_src emacs-lisp
 (defvar org-agenda-files)
 
-(defun tlj-org-file-autosave-refile ()
+(defun art-org-file-autosave-refile ()
   "Autosave capture org documents after refile."
-  (interactive)
   (message "Saving org agenda document buffer...")
   (save-some-buffers t
                      (lambda ()
@@ -540,36 +541,37 @@ Quickly store notes or templates.
 
 (advice-add 'org-refile :after
             (lambda (&rest _)
-              (tlj-org-file-autosave-refile)))
+              (art-org-file-autosave-refile)))
 
-(defconst tlj-agenda-capture-directory
-  "c:/Users/hoaxdream/Dropbox/emacs/org-agenda/agenda.org")
+(defconst art-agenda-capture-file
+  "c:/Users/artjeremie/Dropbox/emacs/org-agenda/agenda.org"
+  "Path on where to refile entries.")
 
 (setq-default org-capture-templates
               '(("a" "Agenda Entries")
                 ("ae" "Entry Task"
-                 entry (file+headline tlj-agenda-capture-directory "Inbox")
+                 entry (file+headline art-agenda-capture-file "Inbox")
                  "** TODO %?"
                  :empty-lines-after 1 :prepend t)
                 ("as" "Schedule Task"
-                 entry (file+headline tlj-agenda-capture-directory "Inbox")
+                 entry (file+headline art-agenda-capture-file "Inbox")
                  "** TODO %? \n SCHED: %^t \n"
                  :empty-lines-after 1 :prepend t)
                 ("ad" "Deadline Task"
-                 entry (file+headline tlj-agenda-capture-directory "Inbox")
+                 entry (file+headline art-agenda-capture-file "Inbox")
                  "** TODO %? \n DUE: %^t \n"
                  :empty-lines-after 1 :prepend t)
                 ("aw" "Schedule & Deadline"
-                 entry (file+headline tlj-agenda-capture-directory "Inbox")
+                 entry (file+headline art-agenda-capture-file "Inbox")
                  "** TODO %? \n SCHED: %^t DUE: %^t \n"
                  :empty-lines-after 1 :prepend t)
                 ("r" "Repeated Task"
-                 entry (file+headline tlj-agenda-capture-directory "Inbox")
+                 entry (file+headline art-agenda-capture-file "Inbox")
                  "** TODO %? \n SCHED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")"
                  :empty-lines-after 1 :prepend t)
                 ("p" "Properties Header")
                 ("pc" "Category Properties"
-                 entry (file tlj-agenda-capture-directory)
+                 entry (file art-agenda-capture-file)
                  "* %?\n %^{CATEGORY}p")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -585,7 +587,7 @@ Make invisible parts of Org elements appear visible.
 #+end_src
 
 ** Habit
-Track the consistency of a special category of *TODO*, called /habit/.
+Track the consistency of a /special/ category of *TODO*.
 
 #+begin_src emacs-lisp
 (setq-default org-modules '(org-habit))
@@ -593,10 +595,10 @@ Track the consistency of a special category of *TODO*, called /habit/.
 #+end_src
 
 * Calendar
-Birthday, anniversary and holiday reminder.
+Birthday, anniversary and holiday /reminder/.
 
 #+begin_src emacs-lisp
-(setq-default diary-file "c:/Users/hoaxdream/Dropbox/emacs/diary/diary")
+(setq-default diary-file "c:/Users/artjeremie/Dropbox/emacs/diary/diary")
 (setq-default calendar-mark-diary-entries-flag t)
 (setq-default calendar-mark-holidays-flag t)
 
@@ -678,7 +680,7 @@ Enhances completion at point with a small completion popup.
 (add-to-list 'completion-at-point-functions 'cape-file)
 #+end_src
 
-** Vertico&Co
+** Vertico and friends
 *Vertico* helps to rapidly complete file names, buffer names, or any other
 Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 
@@ -710,19 +712,20 @@ Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 #+end_src
 
 * Languages
-Programming languages specifics.
+Programming language specifics.
 
 ** Lua
 Syntax for lua files.
 
 #+begin_src emacs-lisp
 (setq-default lua-indent-level 4)
+
 (add-to-list 'auto-mode-alist '("\\.lua$'" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
 
 ** Python
-Preferred defaults for python.
+Preferred python defaults.
 
 #+begin_src emacs-lisp
 (setq-default python-shell-interpreter "python")
@@ -733,19 +736,19 @@ Preferred defaults for python.
 Tracks changes to a file or directory.
 
 ** Diff-hl
-Display Git changes indicators in the =left-fringe=.
+Display Git /changes/ indicators in the =left-fringe=.
 
 #+begin_src emacs-lisp
 (let* ((height (frame-char-height))
        (width 2)
        (ones (1- (expt 2 width)))
        (bits (make-vector height ones)))
-  (define-fringe-bitmap 'tlj-diff-hl-bitmap bits height width))
+  (define-fringe-bitmap 'art-diff-hl-bitmap bits height width))
 
 (setq-default diff-hl-show-staged-changes nil)
 (setq-default diff-hl-fringe-bmp-function
               (lambda (_type _pos)
-                'tlj-diff-hl-bitmap))
+                'art-diff-hl-bitmap))
 
 (add-hook 'text-mode-hook 'diff-hl-mode)
 (add-hook 'prog-mode-hook 'diff-hl-mode)
@@ -757,7 +760,7 @@ Display Git changes indicators in the =left-fringe=.
 Quality of life packages.
 
 ** Emoji
-Show emojis in Emacs 🍢.
+Show emojis in Emacs 🎆.
 
 #+begin_src emacs-lisp
 (setq-default emojify-display-style 'unicode)
@@ -805,6 +808,6 @@ Center your buffer for /aesthetics/ and /focus/.
 Detect truncated versions of the file from the lack of footer line.
 
 #+begin_src emacs-lisp
-(provide 'userconfig)
-;;; userconfig.el ends here
+(provide 'artconfig)
+;;; artconfig.el ends here
 #+end_src

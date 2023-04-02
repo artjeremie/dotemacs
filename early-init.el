@@ -1,9 +1,9 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
@@ -34,7 +34,8 @@
 (setq-default native-comp-async-report-warnings-errors 'silent)
 
 (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
-(load "uistyle-modules")
-(load "vivendi-modules")
+
+(load "uistyle-init")
+(load "vivendi-init")
 
 ;;; early-init.el ends here

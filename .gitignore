@@ -3,5 +3,5 @@ etc/
 server/
 transient/
 var/
-userconfig.el
-userconfig.elc
+artconfig.el
+artconfig.elc

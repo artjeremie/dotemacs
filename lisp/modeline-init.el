@@ -1,9 +1,9 @@
-;;; modeline-modules.el --- Mode-line -*- lexical-binding: t -*-
+;;; modeline-init.el --- Modeline -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
@@ -11,31 +11,23 @@
 
 ;;; Code:
 
-;; (setq-default header-line-format
-;;               (list
-;;                `(vc-mode vc-mode)
-;;                mode-line-modes))
-
 (defvar hidden-minor-modes
   '(abbrev-mode
     eldoc-mode
     yas-minor-mode))
 
-(defun tlj-purge-minor-modes ()
-  "Hide some minor modes in modeline."
-  ;; (interactive)
+(defun art-purge-minor-modes ()
+  "Hide some minor modes in `mode-line'."
   (dolist (x hidden-minor-modes nil)
     (let ((trg (cdr (assoc x minor-mode-alist))))
-      (when trg
-        (setcar trg "")))))
+      (when trg (setcar trg "")))))
 
-(add-hook 'after-change-major-mode-hook 'tlj-purge-minor-modes)
+(add-hook 'after-change-major-mode-hook 'art-purge-minor-modes)
 
-(defun tlj-modeline-padding ()
-  "Padding for modeline."
+(defun art-modeline-padding ()
+  "Set padding for `mode-line'."
   (let ((r-length
-         (length
-          (format-mode-line mode-line-end-spaces))))
+         (length (format-mode-line mode-line-end-spaces))))
     (propertize " "
                 'display `(space :align-to (- right ,r-length)))))
 
@@ -55,4 +47,4 @@
                 (:eval (tlj-modeline-padding))
                 mode-line-end-spaces))
 
-;;; modeline-modules.el ends here
+;;; modeline-init.el ends here

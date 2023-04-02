@@ -1,9 +1,9 @@
 ;;; init.el --- Init File -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
@@ -18,15 +18,16 @@
 
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-  (load "modeline-modules" nil t)
-  (load "prog-modules" nil t)
-  (load "package-init-modules" nil t)
+  (load "modeline-init" nil t)
+  (load "prog-init" nil t)
+  (load "pkglist-init" nil t)
 
-  (let ((user-settings "~/.emacs.d/userconfig.el"))
+  (let ((user-settings "~/.emacs.d/artconfig.el"))
     (when (file-exists-p user-settings)
       (load user-settings nil t)))
 
-  (cd "c:/Users/hoaxdream/")
+  (cd "c:/Users/artjeremie/")
+
   (garbage-collect)
 
   (add-hook 'emacs-startup-hook

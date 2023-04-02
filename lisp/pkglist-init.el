@@ -1,18 +1,19 @@
-;;; package-init-modules.el --- Packages setup -*- lexical-binding: t -*-
+;;; pkglist-init.el --- Package lists -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremia@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
 ;; This file contains initial package setup and function to tangle
-;; the Org literate configuration file.
+;; Org literate configuration file.
 
 ;;; Code:
 
 (require 'package)
+
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 
@@ -45,43 +46,44 @@
                 vertico
                 yasnippet))
 
-(defun tlj-rebuild-pkg ()
-  "Refresh packages contents then install or uninstall missing packages."
+(defun art-package-update ()
+  "Update package content and install or uninstall packages."
   (interactive)
   (package-refresh-contents)
   (package-autoremove)
   (package-install-selected-packages 'noconfirm))
 
-(defconst tlj-source-path
+(defconst art-source-path
   (locate-user-emacs-file "README.org")
-  "Path to the Org literate configuration file.")
+  "Path to Org literate configuration file.")
 
-(defconst tlj-target-path
-  (locate-user-emacs-file "userconfig.el")
-  "Path to the Elisp version of Org literate configuration.")
+(defconst art-target-path
+  (locate-user-emacs-file "artconfig.el")
+  "Path to Elisp version of Org literate configuration file.")
 
-(autoload 'org-babel-tangle-file "ob-tangle" nil t)
-(defun tlj-tangle-and-compile ()
+(autoload 'org-babel-tangle-file "ob-tangle")
+
+(defun art-tangle-and-compile ()
   "Tangle Org literate configuration file."
   (interactive)
-  (when (file-newer-than-file-p tlj-source-path tlj-target-path)
+  (when (file-newer-than-file-p art-source-path art-target-path)
     (require 'org)
     (require 'ob)
-    (org-babel-tangle-file tlj-source-path
-                           tlj-target-path
+    (org-babel-tangle-file art-source-path
+                           art-target-path
                            (rx string-start
                                (or "emacs-lisp" "elisp")
                                string-end))
-    (byte-compile-file tlj-target-path)))
+    (byte-compile-file art-target-path)))
 
-(add-hook 'kill-emacs-hook 'tlj-tangle-and-compile)
+(add-hook 'kill-emacs-hook 'art-tangle-and-compile)
 
-(defun tlj-find-org-config ()
+(defun art-find-org-configuration ()
   "Open Org literate configuration file."
   (interactive)
-  (find-file tlj-source-path))
+  (find-file art-source-path))
 
-(global-set-key (kbd "C-c u") 'tlj-rebuild-pkg)
-(global-set-key (kbd "C-c f") 'tlj-find-org-config)
+(global-set-key (kbd "C-c u") 'art-package-update)
+(global-set-key (kbd "C-c f") 'art-find-org-configuration)
 
-;;; package-init-modules.el ends here
+;;; pkglist-init.el ends here

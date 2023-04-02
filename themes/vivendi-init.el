@@ -1,13 +1,13 @@
-;;; vivendi-modules.el --- Modus vivendi -*- lexical-binding: t -*-
+;;; vivendi-init.el --- Modus vivendi -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
-;; This file contains configuration to `vivendi' theme.
+;; This file contains configuration to `modus-vivendi' theme.
 
 ;;; Code:
 
@@ -24,6 +24,7 @@
 
 ;; Load theme in `early-init.el' so we avoid that ugly white screen startup.
 (load-theme 'modus-vivendi)
+
 (add-to-list 'default-frame-alist '(background-color . "#1d2021"))
 (add-to-list 'default-frame-alist '(foreground-color . "#c2c2c2"))
 
@@ -42,4 +43,4 @@
  '(org-agenda-done ((t (:foreground "#4c4c4c"))))
  '(org-agenda-current-time ((t (:foreground "#44bc44")))))
 
-;;; vivendi-modules.el ends here
+;;; vivendi-init.el ends here

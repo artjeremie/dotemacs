@@ -1,9 +1,9 @@
-;;; uistyle-modules.el --- UI style -*- lexical-binding: t -*-
+;;; uistyle-init.el --- UI style -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2023 hoaxdream
+;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: hoaxdream <hoaxdream@gmail.com>
-;; URL: https://github.com/hoaxdream
+;; Author: artjeremie <artjeremie@gmail.com>
+;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
 
@@ -17,7 +17,9 @@
 
 (setq window-divider-default-right-width 2)
 (setq window-divider-default-bottom-width 1)
+
 (window-divider-mode t)
+
 (add-hook 'before-make-frame-hook 'window-divider-mode)
 
-;;; uistyle-modules.el ends here
+;;; uistyle-init.el ends here
