@@ -24,7 +24,8 @@
          (append elisp-flymake-byte-compile-load-path load-path)))
     (apply old-function arguments)))
 
-(advice-add 'elisp-flymake-byte-compile :around 'art-elisp-flymake-byte-compile)
+(advice-add 'elisp-flymake-byte-compile
+            :around 'art-elisp-flymake-byte-compile)
 
 (with-eval-after-load 'flymake
   (when (boundp 'flymake-mode-map)

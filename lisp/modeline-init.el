@@ -44,7 +44,7 @@
                 "%I "
                 "%b "
                 "%l:%c "
-                (:eval (tlj-modeline-padding))
+                (:eval (art-modeline-padding))
                 mode-line-end-spaces))
 
 ;;; modeline-init.el ends here

@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2022-2023 artjeremie
 
-;; Author: artjeremie <artjeremia@gmail.com>
+;; Author: artjeremie <artjeremie@gmail.com>
 ;; URL: https://github.com/artjeremie
 
 ;;; Commentary:
@@ -67,14 +67,8 @@
   "Tangle Org literate configuration file."
   (interactive)
   (when (file-newer-than-file-p art-source-path art-target-path)
-    (require 'org)
-    (require 'ob)
     (org-babel-tangle-file art-source-path
-                           art-target-path
-                           (rx string-start
-                               (or "emacs-lisp" "elisp")
-                               string-end))
-    (byte-compile-file art-target-path)))
+                           art-target-path)))
 
 (add-hook 'kill-emacs-hook 'art-tangle-and-compile)
 
