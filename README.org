@@ -265,7 +265,6 @@ Emacs package for reading and sending mail.
 (setq-default message-elide-ellipsis "\n> [... %l lines elided]\n")
 (setq-default compose-mail-user-agent-warnings nil)
 (setq-default nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
-;; (setq-default nnmail-expiry-target "nnimap+gmail:[Gmail]/Drafts")
 (setq-default nnmail-expiry-wait 'immediate)
 
 (setq-default mail-signature "artjeremie\nhttps://github.com/artjeremie\n")
@@ -353,6 +352,10 @@ Extensible web feed reader for Emacs.
   (elfeed-search-set-filter "@1-month-ago"))
 
 (let ((myfeeds "c:/Users/artjeremie/Dropbox/emacs/elfeed/feeds.el"))
+  (when (file-exists-p myfeeds)
+    (load myfeeds nil t)))
+
+(with-eval-after-load 'elfeed
   (when (boundp 'elfeed-search-mode-map)
     (define-key elfeed-search-mode-map (kbd "D") 'art-elfeed-show-daily-feeds)
     (define-key elfeed-search-mode-map (kbd "W") 'art-elfeed-show-weekly-feeds)
@@ -752,7 +755,7 @@ Display Git /changes/ indicators in the =left-fringe=.
 
 (add-hook 'text-mode-hook 'diff-hl-mode)
 (add-hook 'prog-mode-hook 'diff-hl-mode)
-(add-hook 'diff-hl-mode 'diff-hl-flydiff-mode)
+;; (add-hook 'diff-hl-mode 'diff-hl-flydiff-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 #+end_src
 
