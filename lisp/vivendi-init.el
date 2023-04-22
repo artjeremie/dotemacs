@@ -16,17 +16,8 @@
                 ("STOP" :foreground "purple")))
 
 (setq-default org-priority-faces '((65 . "#ff5f5f")
-                                   (66 . "#338fff")
-                                   (67 . "#efef00")
-                                   (68 . "#ff66ff")
-                                   (69 . "#caa6df")
-                                   (70 . "#9ac8e0")))
-
-;; Load theme in `early-init.el' so we avoid that ugly white screen startup.
-(load-theme 'modus-vivendi)
-
-(add-to-list 'default-frame-alist '(background-color . "#1d2021"))
-(add-to-list 'default-frame-alist '(foreground-color . "#c2c2c2"))
+                                   (66 . "#caa6df")
+                                   (67 . "#88ca9f")))
 
 ;; Recommended to enable `variable-pitch-mode'.
 (custom-set-faces

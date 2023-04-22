@@ -14,6 +14,7 @@
 (defvar hidden-minor-modes
   '(abbrev-mode
     eldoc-mode
+    rainbow-mode
     yas-minor-mode))
 
 (defun art-purge-minor-modes ()
@@ -25,7 +26,7 @@
 (add-hook 'after-change-major-mode-hook 'art-purge-minor-modes)
 
 (defun art-modeline-padding ()
-  "Set padding for `mode-line'."
+  "Padding for `mode-line'."
   (let ((r-length
          (length (format-mode-line mode-line-end-spaces))))
     (propertize " "

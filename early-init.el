@@ -19,13 +19,12 @@
 (dolist (var '(default-frame-alist initial-frame-alist))
   (add-to-list var '(width . (text-pixels . 1280)))
   (add-to-list var '(height . (text-pixels . 900)))
-  (add-to-list var '(font . "Iosevka-14")))
+  (add-to-list var '(font . "Iosevka-16")))
 
 (setq frame-resize-pixelwise t)
 (setq frame-inhibit-implied-resize t)
 
 (setq inhibit-splash-screen t)
-(setq inhibit-startup-buffer-menu t)
 (setq inhibit-startup-buffer-menu t)
 (setq frame-title-format '("%b"))
 
@@ -33,9 +32,7 @@
 (setq-default package-check-signature nil)
 (setq-default native-comp-async-report-warnings-errors 'silent)
 
-(add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
-
-(load "uistyle-init")
-(load "vivendi-init")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'art t)
 
 ;;; early-init.el ends here

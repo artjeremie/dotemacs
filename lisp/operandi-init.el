@@ -16,14 +16,8 @@
                 ("STOP" :foreground "purple")))
 
 (setq-default org-priority-faces '((65 . "#d00000")
-                                   (66 . "#0000ff")
-                                   (67 . "#808800")
-                                   (68 . "#dd22dd")
-                                   (69 . "#7c318f")
-                                   (70 . "#005077")))
-
-;; Load theme in `early-init.el' so we avoid that ugly white screen startup.
-(load-theme 'modus-operandi)
+                                   (66 . "#7c318f")
+                                   (67 . "#808800")))
 
 ;; Recommended to enable `variable-pitch-mode'.
 (custom-set-faces

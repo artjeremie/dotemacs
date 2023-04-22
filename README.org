@@ -4,11 +4,7 @@
 #+description: Personal GNU Emacs Configuration for Windows 10
 #+startup: overview
 
-* Table of Contents                                                                                     :Toc:Quote:
-:PROPERTIES:
-:Visibility: folded
-:END:
-
+* Table of Contents                                                            :Toc:Quote:
 #+BEGIN_QUOTE
 - [[#overview][Overview]]
 - [[#elisp-header][Elisp header]]
@@ -33,7 +29,7 @@
 - [[#snippet][Snippet]]
 - [[#completion][Completion]]
   - [[#corfu][Corfu]]
-  - [[#vertico-and-friends][Vertico and friends]]
+  - [[#vertico][Vertico]]
 - [[#languages][Languages]]
   - [[#lua][Lua]]
   - [[#python][Python]]
@@ -43,6 +39,7 @@
   - [[#emoji][Emoji]]
   - [[#helpful][Helpful]]
   - [[#toc][Toc]]
+  - [[#hex-colors][Hex colors]]
   - [[#olivetti][Olivetti]]
 - [[#elisp-footer][Elisp footer]]
 #+END_QUOTE
@@ -75,7 +72,7 @@ Header for =artconfig.el=.
 #+end_src
 
 * Better defaults
-Keep it as minimal as possible and set some of the defaults here.
+Minimal defaults.
 
 ** General settings
 Override some of the default settings.
@@ -83,6 +80,7 @@ Override some of the default settings.
 #+begin_src emacs-lisp
 (setq-default ad-redefinition-action 'accept)
 (setq-default ring-bell-function 'ignore)
+(setq-default enable-local-variables :safe)
 (setq-default cursor-in-non-selected-windows nil)
 (setq-default cursor-type 'bar)
 (setq-default fill-column 80)
@@ -120,7 +118,7 @@ Override some of the default settings.
 Default fonts for UI and emojis.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "Iosevka" :height 140)
+(set-face-attribute 'default nil :family "Iosevka" :height 160)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
 
@@ -140,6 +138,9 @@ and set good defaults for backup files.
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(when (file-exists-p custom-file)
+  (load custom-file nil t))
 
 (setq version-control t)
 (setq backup-by-copying t)
@@ -173,7 +174,7 @@ Set and unset some keyinds.
 (windmove-default-keybindings 'ctrl)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key key-translation-map (kbd "<escape>") (kbd "C-g"))
 
 (global-set-key (kbd "C-h K") 'describe-keymap)
 
@@ -227,9 +228,9 @@ Convenient way to manage files and directories inside Emacs.
 #+end_src
 
 * Gnus
-Emacs package for reading and sending mail.
+Emacs package for /reading/ and /sending/ mail.
 
-| *Key*     | *Command*                          | *Description*       |
+| *Keybind* | *Commmand*                         | *Description*       |
 |---------+----------------------------------+-------------------|
 | =[#]=     | gnus-summary-mark-as-processable | /Mark mail/         |
 | =[B DEL]= | gnus-summary-delete-article      | /Delete mail/       |
@@ -289,19 +290,19 @@ Emacs package for reading and sending mail.
 #+end_src
 
 * Feeds
-Extensible web feed reader for Emacs.
+*Elfeed* is an extensible web feed reader for Emacs.
 
-| *Key* | *Command*                        | *Description*                |
-|-----+--------------------------------+----------------------------|
-| =[b]= | elfeed-search-browse-url       | /Open article in browser/    |
-| =[G]= | elfeed-search-fetch            | /Fetch  updates from server/ |
-| =[s]= | elfeed-search-live-filter      | /Update search filter/       |
-| =[c]= | elfeed-search-clear-filter     | /Clear search filter/        |
-| =[r]= | elfeed-search-untag-all-unread | /Mark as unread/             |
-| =[u]= | elfeed-search-tag-all-unread   | /Mark as read/               |
-| =[g]= | elfeed-search-update--force    | /Refresh and remove unread/  |
-| =[q]= | elfeed-search-quit-window      | /Quit browser/               |
-| =[v]= | art-elfeed-play-with-mpv       | /Open youtube feeds in mpv/  |
+| *Keybind* | *Command*                        | *Description*               |
+|---------+--------------------------------+---------------------------|
+| =[b]=     | elfeed-search-browse-url       | /Open article in browser/   |
+| =[G]=     | elfeed-search-fetch            | /Fetch updates from server/ |
+| =[s]=     | elfeed-search-live-filter      | /Update search filter/      |
+| =[c]=     | elfeed-search-clear-filter     | /Clear search filter/       |
+| =[r]=     | elfeed-search-untag-all-unread | /Mark as unread/            |
+| =[u]=     | elfeed-search-tag-all-unread   | /Mark as read/              |
+| =[g]=     | elfeed-search-update--force    | /Refresh and remove unread/ |
+| =[q]=     | elfeed-search-quit-window      | /Quit browser/              |
+| =[v]=     | art-elfeed-play-with-mpv       | /Open youtube feeds in mpv/ |
 
 #+begin_src emacs-lisp
 (defvar elfeed-show-entry)
@@ -374,36 +375,28 @@ Preferred settings for =org-mode=.
 
 #+begin_src emacs-lisp
 (defconst art-notes-path
-  (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/org-notes")
+  (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/org")
   "Path to personal notes file.")
 
 (defun art-find-notes ()
-  "Open personal notes file."
+  "Find and open notes."
   (interactive)
   (find-file art-notes-path))
 
-(setq-default org-directory "c:/Users/artjeremie/Dropbox/emacs/org-notes")
+(setq-default org-directory "c:/Users/artjeremie/Dropbox/emacs/org")
 (setq-default org-default-notes-file art-notes-path)
 (setq-default org-startup-indented nil)
 (setq-default org-edit-src-content-indentation 0)
 (setq-default org-src-window-setup 'current-window)
-(setq-default org-reverse-note-order t)
 (setq-default org-return-follows-link t)
-(setq-default org-startup-with-inline-images nil)
 (setq-default org-image-actual-width nil)
 (setq-default org-link-descriptive t)
 (setq-default org-hide-emphasis-markers t)
 (setq-default org-pretty-entities t)
-(setq-default org-hidden-keywords nil)
-(setq-default org-auto-align-tags t)
 (setq-default org-hide-leading-stars t)
-(setq-default org-tags-column -115)
+(setq-default org-tags-column -90)
 (setq-default org-special-ctrl-a/e t)
 (setq-default org-catch-invisible-edits 'show-and-error)
-(setq-default org-log-done 'time)
-(setq-default org-log-redeadline 'time)
-(setq-default org-log-reschedule 'time)
-(setq-default org-log-into-drawer t)
 
 ;; (setq-default org-display-custom-times t)
 (setq-default org-time-stamp-custom-formats
@@ -414,47 +407,35 @@ Preferred settings for =org-mode=.
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
 
-(global-set-key (kbd "C-c n") 'art-find-notes)
+(global-set-key (kbd "C-;") 'art-find-notes)
 #+end_src
 
 ** Agenda
 Planning and scheduling.
 
 #+begin_src emacs-lisp
-(defconst art-agenda-path
-  (expand-file-name "agenda.org" "c:/Users/artjeremie/Dropbox/emacs/org-agenda")
-  "Path to agenda file.")
-
-(defun art-find-agenda ()
-  "Open agenda file."
-  (interactive)
-  (find-file art-agenda-path))
-
 (defun art-org-agenda-view-startup ()
   "Agenda view schedule on Emacs startup."
   (org-agenda nil "c"))
 
-(setq-default org-agenda-files `(,art-agenda-path))
-(setq-default org-agenda-include-diary t)
-(setq-default org-agenda-timegrid-use-ampm 1)
+(setq-default org-agenda-files
+              (mapcar 'file-truename
+                      (file-expand-wildcards
+                       "c:/Users/artjeremie/Dropbox/emacs/org/*.org")))
+
 (setq-default org-agenda-start-on-weekday 1)
+(setq-default org-agenda-timegrid-use-ampm 1)
 (setq-default org-agenda-show-all-dates nil)
-(setq-default org-agenda-start-with-log-mode t)
+(setq-default org-agenda-remove-tags t)
+(setq-default org-agenda-tags-column -90)
 (setq-default org-agenda-window-setup 'current-window)
-(setq-default org-agenda-log-into-drawer t)
-(setq-default org-agenda-span 2)
-(setq-default org-agenda-block-separator nil)
-(setq-default org-agenda-tags-column -115)
-;; (setq-default org-agenda-remove-tags t)
 (setq-default org-agenda-skip-deadline-if-done t)
 (setq-default org-agenda-skip-schedule-if-done t)
-(setq-default org-lowest-priority ?F)
-(setq-default org-default-priority ?E)
+(setq-default org-log-done 'time)
+(setq-default org-log-into-drawer t)
 
 (setq-default org-todo-keywords
-              '((sequence "TODO(t)"
-                          "|"
-                          "DONE(d!)" "STOP(s@)")))
+              '((sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")))
 
 (setq-default org-agenda-time-grid
               '((daily today require-timed)
@@ -465,65 +446,48 @@ Planning and scheduling.
 
 (setq-default org-agenda-scheduled-leaders
               '("Sched: " "Sched.%2dx: "))
-(setq-default org-agenda-deadline-leaders
-              '("Due: " "Due in %1d-day(s): " "Overdue %1d-day(s) ago: "))
 
-(setq-default org-scheduled-string "SCHED:")
-(setq-default org-deadline-string "DUE:")
+(setq-default org-agenda-deadline-leaders
+              '("Due: " "Due in %1d-day(s): " "Overdue %1dd(s) ago: "))
+
+;; (setq-default org-scheduled-string "SCHED:")
+;; (setq-default org-deadline-string "DUE:")
 
 (setq-default org-agenda-prefix-format
-              '((agenda . "%i %?-12t%s")
-                (todo . "%i")
-                (tags . "%i")
-                (search . "%i")))
+              '((agenda . " %i %?-12t%s")
+                (todo   . " %i")
+                (tags   . " %i")
+                (search . " %i")))
 
 (setq-default org-agenda-custom-commands
-              `(("c" "Custom agenda and top priority tasks"
-                 ((tags-todo "*"
-                             ((org-agenda-skip-function
-                               '(org-agenda-skip-if nil '(timestamp)))
-                              (org-agenda-skip-function
-                               `(org-agenda-skip-entry-if
-                                 'notregexp ,(format "\\[#%s\\]"
-                                                     (char-to-string
-                                                      org-priority-highest))))
-                              (org-agenda-block-separator nil)
-                              (org-agenda-overriding-header "Urgent tasks\n")))
-                  (agenda "" ((org-agenda-span 1)
-                              (org-deadline-warning-days 0)
-                              (org-agenda-block-separator nil)
-                              (org-agenda-format-date "%A %-e %B %Y")
-                              (org-scheduled-past-days 0)
-                              (org-agenda-day-face-function
-                               (lambda (date)
-                                 'org-agenda-date))
-                              (org-agenda-overriding-header
-                               "\nToday's agenda\n")))
-                  (agenda "" ((org-agenda-start-on-weekday nil)
-                              (org-agenda-start-day "+1d")
-                              (org-agenda-span 3)
-                              (org-deadline-warning-days 0)
-                              (org-agenda-block-separator nil)
-                              (org-agenda-format-date "%A %-e %B %Y")
-                              (org-agenda-skip-function
-                               '(org-agenda-skip-entry-if 'todo 'done))
-                              (org-agenda-overriding-header
-                               "\nNext three days\n")))
-                  (agenda "" ((org-agenda-start-on-weekday nil)
-                              (org-agenda-start-day "+4d")
-                              (org-agenda-span 14)
-                              (org-agenda-show-all-dates nil)
-                              (org-agenda-format-date "%A %-e %B %Y")
-                              (org-deadline-warning-days 0)
-                              (org-agenda-block-separator nil)
-                              (org-agenda-entry-types '(:deadline))
-                              (org-agenda-skip-function
-                               '(org-agenda-skip-entry-if 'todo 'done))
-                              (org-agenda-overriding-header
-                               "\nUpcoming two weeks\n")))))))
+              `(("c" "Custom Agenda View"
+                 ((agenda ""
+                          ((org-agenda-block-separator nil)
+                           (org-agenda-format-date "%A %-e %B %Y")
+                           (org-agenda-include-diary t)
+                           (org-agenda-time-grid nil)
+                           (org-agenda-skip-function
+                            '(org-agenda-skip-entry-if 'scheduled 'deadline))
+                           (org-agenda-overriding-header "Holidays & Birthdays")))
+                  (agenda ""
+                          ((org-agenda-block-separator nil)
+                           (org-agenda-format-date "%A %-e %B %Y")
+                           (org-scheduled-past-days 0)
+                           (org-agenda-span 21)
+                           (org-agenda-skip-function
+                            '(org-agenda-skip-entry-if 'deadline))
+                           (org-agenda-overriding-header "\nSchedule")))
+                  (agenda ""
+                          ((org-agenda-block-separator nil)
+                           (org-agenda-format-date "%A %-e %B %Y")
+                           (org-agenda-span 21)
+                           (org-deadline-warning-days 60)
+                           (org-agenda-skip-function
+                            '(org-agenda-skip-entry-if 'scheduled))
+                           (org-agenda-overriding-header "\nDeadline")))))))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-;") 'art-find-agenda)
+(global-set-key (kbd "C-'") 'org-cycle-agenda-files)
 
 (add-hook 'after-init-hook 'art-org-agenda-view-startup)
 #+end_src
@@ -546,36 +510,24 @@ Quickly store notes or templates.
             (lambda (&rest _)
               (art-org-file-autosave-refile)))
 
-(defconst art-agenda-capture-file
-  "c:/Users/artjeremie/Dropbox/emacs/org-agenda/agenda.org"
-  "Path on where to refile entries.")
+(setq-default org-refile-targets
+              '((nil :maxlevel . 1)
+                (org-agenda-files :maxlevel . 2)))
 
 (setq-default org-capture-templates
               '(("a" "Agenda Entries")
                 ("ae" "Entry Task"
-                 entry (file+headline art-agenda-capture-file "Inbox")
-                 "** TODO %?"
-                 :empty-lines-after 1 :prepend t)
-                ("as" "Schedule Task"
-                 entry (file+headline art-agenda-capture-file "Inbox")
-                 "** TODO %? \n SCHED: %^t \n"
-                 :empty-lines-after 1 :prepend t)
+                 entry (file "inbox.org")
+                 "** TODO %?")
+                ("as" "Scheduled Task"
+                 entry (file "inbox.org")
+                 "** TODO %?\nSCHEDULED: %^t")
                 ("ad" "Deadline Task"
-                 entry (file+headline art-agenda-capture-file "Inbox")
-                 "** TODO %? \n DUE: %^t \n"
-                 :empty-lines-after 1 :prepend t)
-                ("aw" "Schedule & Deadline"
-                 entry (file+headline art-agenda-capture-file "Inbox")
-                 "** TODO %? \n SCHED: %^t DUE: %^t \n"
-                 :empty-lines-after 1 :prepend t)
+                 entry (file "inbox.org")
+                 "** TODO %?\nDEADLINE: %^t")
                 ("r" "Repeated Task"
-                 entry (file+headline art-agenda-capture-file "Inbox")
-                 "** TODO %? \n SCHED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")"
-                 :empty-lines-after 1 :prepend t)
-                ("p" "Properties Header")
-                ("pc" "Category Properties"
-                 entry (file art-agenda-capture-file)
-                 "* %?\n %^{CATEGORY}p")))
+                 entry (file "inbox.org")
+                 "** TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 #+end_src
@@ -683,7 +635,7 @@ Enhances completion at point with a small completion popup.
 (add-to-list 'completion-at-point-functions 'cape-file)
 #+end_src
 
-** Vertico and friends
+** Vertico
 *Vertico* helps to rapidly complete file names, buffer names, or any other
 Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 
@@ -755,7 +707,6 @@ Display Git /changes/ indicators in the =left-fringe=.
 
 (add-hook 'text-mode-hook 'diff-hl-mode)
 (add-hook 'prog-mode-hook 'diff-hl-mode)
-;; (add-hook 'diff-hl-mode 'diff-hl-flydiff-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 #+end_src
 
@@ -763,7 +714,7 @@ Display Git /changes/ indicators in the =left-fringe=.
 Quality of life packages.
 
 ** Emoji
-Show emojis in Emacs 🎆.
+Show emojis in Emacs. 😊
 
 #+begin_src emacs-lisp
 (setq-default emojify-display-style 'unicode)
@@ -795,6 +746,14 @@ Generate /table of contents/ for *Org* and *Markdown* documents.
 (add-hook 'markdown-mode-hook 'toc-org-mode)
 #+end_src
 
+** Hex colors
+Sets background color to strings that match color names.
+
+#+begin_src emacs-lisp
+(add-hook 'text-mode-hook 'rainbow-mode)
+(add-hook 'prog-mode-hook 'rainbow-mode)
+#+end_src
+
 ** Olivetti
 Center your buffer for /aesthetics/ and /focus/.
 
@@ -812,5 +771,6 @@ Detect truncated versions of the file from the lack of footer line.
 
 #+begin_src emacs-lisp
 (provide 'artconfig)
+
 ;;; artconfig.el ends here
 #+end_src

@@ -41,6 +41,7 @@
                 orderless
                 org-appear
                 powershell
+                rainbow-mode
                 rg
                 toc-org
                 vertico

@@ -4,4 +4,3 @@ server/
 transient/
 var/
 artconfig.el
-artconfig.elc

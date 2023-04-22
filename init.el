@@ -18,6 +18,7 @@
 
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+  (load "uistyle-init" nil t)
   (load "modeline-init" nil t)
   (load "prog-init" nil t)
   (load "pkglist-init" nil t)
