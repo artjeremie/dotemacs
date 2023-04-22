@@ -9,7 +9,7 @@
 - [[#overview][Overview]]
 - [[#elisp-header][Elisp header]]
 - [[#better-defaults][Better defaults]]
-  - [[#general-settings][General settings]]
+  - [[#general][General]]
   - [[#fonts][Fonts]]
   - [[#organize-directory][Organize directory]]
   - [[#garbage-collect][Garbage collect]]
@@ -74,7 +74,7 @@ Header for =artconfig.el=.
 * Better defaults
 Minimal defaults.
 
-** General settings
+** General
 Override some of the default settings.
 
 #+begin_src emacs-lisp
@@ -144,6 +144,7 @@ and set good defaults for backup files.
 
 (setq version-control t)
 (setq backup-by-copying t)
+(setq make-backup-files nil)
 (setq delete-old-versions t)
 (setq kept-new-versions 2)
 (setq kept-old-versions 2)
@@ -375,7 +376,7 @@ Preferred settings for =org-mode=.
 
 #+begin_src emacs-lisp
 (defconst art-notes-path
-  (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/org")
+  (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/notes")
   "Path to personal notes file.")
 
 (defun art-find-notes ()
@@ -433,6 +434,15 @@ Planning and scheduling.
 (setq-default org-agenda-skip-schedule-if-done t)
 (setq-default org-log-done 'time)
 (setq-default org-log-into-drawer t)
+
+(setq-default org-tag-alist
+              '(("@home" . ?h)
+                ("@windows" . ?w)
+                ("@family" . ?f)
+                ("@mac" . ?m)
+                ("@emacs" . ?e)
+                ("@linux" . ?l)
+                ("@games" . ?g)))
 
 (setq-default org-todo-keywords
               '((sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")))
@@ -512,21 +522,21 @@ Quickly store notes or templates.
 
 (setq-default org-refile-targets
               '((nil :maxlevel . 1)
-                (org-agenda-files :maxlevel . 2)))
+                (org-agenda-files :maxlevel . 1)))
 
 (setq-default org-capture-templates
               '(("a" "Agenda Entries")
                 ("ae" "Entry Task"
-                 entry (file "inbox.org")
+                 entry (file "gtd.org")
                  "** TODO %?")
                 ("as" "Scheduled Task"
-                 entry (file "inbox.org")
+                 entry (file "gtd.org")
                  "** TODO %?\nSCHEDULED: %^t")
                 ("ad" "Deadline Task"
-                 entry (file "inbox.org")
+                 entry (file "gtd.org")
                  "** TODO %?\nDEADLINE: %^t")
                 ("r" "Repeated Task"
-                 entry (file "inbox.org")
+                 entry (file "gtd.org")
                  "** TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
