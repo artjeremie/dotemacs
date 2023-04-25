@@ -175,7 +175,7 @@ Set and unset some keyinds.
 (windmove-default-keybindings 'ctrl)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(define-key key-translation-map (kbd "<escape>") (kbd "C-g"))
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
 (global-set-key (kbd "C-h K") 'describe-keymap)
 
@@ -442,6 +442,7 @@ Planning and scheduling.
                 ("@mac" . ?m)
                 ("@emacs" . ?e)
                 ("@linux" . ?l)
+                ("Toc:Quote" . ?t)
                 ("@games" . ?g)))
 
 (setq-default org-todo-keywords
