@@ -65,8 +65,10 @@
  ;; Habit
  '(org-habit-clear-future-face ((t (:background "#565f89" :foreground "#13141c"))))
  '(org-habit-clear-face ((t (:background "#7aa2f7" :foreground "#13141c"))))
- '(org-habit-alert-future-face ((t (:background "#e0af68" :foreground "#13141c"))))
+ '(org-habit-alert-future-face ((t (:background "#ff9e64" :foreground "#13141c"))))
  '(org-habit-overdue-future-face ((t (:background "#f7768e" :foreground "#13141c"))))
+ '(org-habit-ready-face ((t (:background "#9ece6a" :foreground "#13141c"))))
+ '(org-habit-alert-face ((t (:background "#e0af68" :foreground "#13141c"))))
 
  ;; Diff-hl
  '(diff-hl-insert ((t (:inherit default :foreground "#9ece6a"))))
