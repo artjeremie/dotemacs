@@ -484,7 +484,7 @@ Planning and scheduling.
                   (agenda ""
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %-e %B %Y")
-                           (org-scheduled-past-days 0)
+                           (org-scheduled-past-days 1)
                            (org-agenda-span 21)
                            (org-agenda-skip-function
                             '(org-agenda-skip-entry-if 'deadline))
