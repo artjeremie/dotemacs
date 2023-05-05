@@ -432,6 +432,7 @@ Planning and scheduling.
 (setq-default org-agenda-window-setup 'current-window)
 (setq-default org-agenda-skip-deadline-if-done t)
 (setq-default org-agenda-skip-schedule-if-done t)
+(setq-default org-log-repeat nil)
 (setq-default org-log-done 'time)
 (setq-default org-log-into-drawer t)
 
@@ -457,16 +458,22 @@ Planning and scheduling.
 (setq-default org-agenda-current-time-string " Now")
 
 (setq-default org-agenda-scheduled-leaders
-              '("Sched: " "Sched.%2dx: "))
+              '("Scheduled: " "Sched.%2dx: "))
 
 (setq-default org-agenda-deadline-leaders
-              '("Due: " "Due in %1d-day(s): " "Overdue %1dd(s) ago: "))
+              '("Deadline: " "Deadline in %1d-day(s): " "Overdue %1dd(s) ago: "))
 
 ;; (setq-default org-scheduled-string "SCHED:")
 ;; (setq-default org-deadline-string "DUE:")
 
+;; (setq-default org-agenda-prefix-format
+              ;; '((agenda . " %i %?-2t%s")
+                ;; (todo   . " %i")
+                ;; (tags   . " %i")
+                ;; (search . " %i")))
+
 (setq-default org-agenda-prefix-format
-              '((agenda . " %i %?-12t%s")
+              '((agenda  . " %i %?-10T%s")
                 (todo   . " %i")
                 (tags   . " %i")
                 (search . " %i")))
@@ -475,28 +482,35 @@ Planning and scheduling.
               `(("c" "Custom Agenda View"
                  ((agenda ""
                           ((org-agenda-block-separator nil)
-                           (org-agenda-format-date "%A %-e %B %Y")
+                           (org-agenda-format-date "%A %d %b %Y")
                            (org-agenda-include-diary t)
                            (org-agenda-time-grid nil)
+                           (org-agenda-span 3)
                            (org-agenda-skip-function
                             '(org-agenda-skip-entry-if 'scheduled 'deadline))
                            (org-agenda-overriding-header "Holidays & Birthdays")))
                   (agenda ""
                           ((org-agenda-block-separator nil)
-                           (org-agenda-format-date "%A %-e %B %Y")
-                           (org-scheduled-past-days 1)
-                           (org-agenda-span 21)
-                           (org-agenda-skip-function
-                            '(org-agenda-skip-entry-if 'deadline))
-                           (org-agenda-overriding-header "\nSchedule")))
+                           (org-agenda-format-date "%A %d %b %Y")
+                           (org-agenda-time-grid nil)
+                           (org-scheduled-past-days 0)
+                           (org-agenda-span 0)
+                           (org-agenda-entry-types '(:scheduled))
+                           (org-agenda-overriding-header "\nToday's Schedule")))
                   (agenda ""
                           ((org-agenda-block-separator nil)
-                           (org-agenda-format-date "%A %-e %B %Y")
-                           (org-agenda-span 21)
+                           (org-agenda-format-date "%A %d %b %Y")
+                           (org-agenda-time-grid nil)
+                           (org-scheduled-past-days 0)
+                           (org-agenda-entry-types '(:scheduled))
+                           (org-agenda-overriding-header "\nWeekly Schedules")))
+                  (agenda ""
+                          ((org-agenda-block-separator nil)
+                           (org-agenda-format-date "%A %d %b %Y")
+                           (org-deadline-past-days 60)
                            (org-deadline-warning-days 60)
-                           (org-agenda-skip-function
-                            '(org-agenda-skip-entry-if 'scheduled))
-                           (org-agenda-overriding-header "\nDeadline")))))))
+                           (org-agenda-entry-types '(:deadline))
+                           (org-agenda-overriding-header "\nDeadlines")))))))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-'") 'org-cycle-agenda-files)
