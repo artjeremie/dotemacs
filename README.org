@@ -674,15 +674,20 @@ Enhances completion at point with a small completion popup.
 (setq-default corfu-popupinfo-delay 0.2)
 (setq-default corfu-cycle t)
 (setq-default corfu-auto-prefix 2)
-(setq-default corfu-auto-delay 0.0)
+(setq-default corfu-auto-delay 0.2)
 
 (add-hook 'after-init-hook 'global-corfu-mode)
 (add-hook 'after-init-hook 'corfu-popupinfo-mode)
 
-(advice-add 'pcomplete-completions-at-point :around 'cape-wrap-silent)
-(advice-add 'pcomplete-completions-at-point :around 'cape-wrap-purify)
 (add-to-list 'completion-at-point-functions 'cape-dabbrev)
 (add-to-list 'completion-at-point-functions 'cape-file)
+(advice-add 'pcomplete-completions-at-point :around 'cape-wrap-silent)
+(advice-add 'pcomplete-completions-at-point :around 'cape-wrap-purify)
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (setq-local corfu-auto nil)
+            (corfu-mode)))
 #+end_src
 
 ** Vertico
