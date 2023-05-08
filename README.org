@@ -468,11 +468,6 @@ Planning and scheduling.
 (setq-default org-todo-keywords
               '((sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")))
 
-;; (setq-default org-agenda-time-grid
-              ;; '((daily today require-timed)
-                ;; ()
-                ;; " ─" "----------------"))
-
 (setq-default org-agenda-time-grid
               '((daily today require-timed)
                 (700 1000 1300 1600 1900 2200)
@@ -480,26 +475,11 @@ Planning and scheduling.
 
 (setq-default org-agenda-current-time-string " Now")
 
-;; (setq-default org-agenda-scheduled-leaders
-              ;; '("Scheduled: " "Sched.%2dx: "))
-
-;; (setq-default org-agenda-deadline-leaders
-              ;; '("Deadline: " "Deadline in %1dd(s): " "Overdue %1dd(s) ago: "))
-
 (setq-default org-agenda-scheduled-leaders
               '("" "Sched.%2dx: "))
 
 (setq-default org-agenda-deadline-leaders
               '("" "In-%1dd" "Overdue %1dd"))
-
-;; (setq-default org-scheduled-string "SCHED:")
-;; (setq-default org-deadline-string "DUE:")
-
-;; (setq-default org-agenda-prefix-format
-              ;; '((agenda . " %i %?-2t%s")
-                ;; (todo   . " %i")
-                ;; (tags   . " %i")
-                ;; (search . " %i")))
 
 (setq-default org-agenda-prefix-format
               '((agenda  . "  %?-10T %?-16t% s")
