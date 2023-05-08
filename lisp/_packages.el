@@ -1,4 +1,4 @@
-;;; pkglist-init.el --- Package lists -*- lexical-binding: t -*-
+;;; _packages.el --- Packages -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022-2023 artjeremie
 
@@ -47,38 +47,38 @@
                 vertico
                 yasnippet))
 
-(defun art-package-update ()
+(defun _package-update ()
   "Update package content and install or uninstall packages."
   (interactive)
   (package-refresh-contents)
   (package-autoremove)
   (package-install-selected-packages 'noconfirm))
 
-(defconst art-source-path
+(defconst _source-path
   (locate-user-emacs-file "README.org")
   "Path to Org literate configuration file.")
 
-(defconst art-target-path
-  (locate-user-emacs-file "artconfig.el")
+(defconst _target-path
+  (locate-user-emacs-file "_config.el")
   "Path to Elisp version of Org literate configuration file.")
 
 (autoload 'org-babel-tangle-file "ob-tangle")
 
-(defun art-tangle-and-compile ()
+(defun _tangle-configuration ()
   "Tangle Org literate configuration file."
   (interactive)
-  (when (file-newer-than-file-p art-source-path art-target-path)
-    (org-babel-tangle-file art-source-path
-                           art-target-path)))
+  (when (file-newer-than-file-p _source-path _target-path)
+    (org-babel-tangle-file _source-path
+                           _target-path)))
 
-(add-hook 'kill-emacs-hook 'art-tangle-and-compile)
+(add-hook 'kill-emacs-hook '_tangle-configuration)
 
-(defun art-find-org-configuration ()
+(defun _open-org-configuration ()
   "Open Org literate configuration file."
   (interactive)
-  (find-file art-source-path))
+  (find-file _source-path))
 
-(global-set-key (kbd "C-c u") 'art-package-update)
-(global-set-key (kbd "C-c f") 'art-find-org-configuration)
+(global-set-key (kbd "C-c u") '_package-update)
+(global-set-key (kbd "C-c f") '_open-org-configuration)
 
-;;; pkglist-init.el ends here
+;;; _packages.el ends here

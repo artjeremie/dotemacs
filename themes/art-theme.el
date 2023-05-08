@@ -26,6 +26,7 @@
  '(region ((t (:background "#414868"))))
  '(selection ((t (:background "#414868"))))
  '(highlight ((t (:background "#3b4261" :foreground "#c0caf5"))))
+ '(cursor ((t (:background "#b4f9f8"))))
  '(show-paren-match ((t (:background nil :foreground "#f7768e" :underline t :bold t))))
  '(line-number-current-line ((t (:foreground "#7aa2f7"))))
  '(mode-line ((t (:background "#21252b" :foreground "#9da5b4"))))
@@ -44,20 +45,24 @@
  '(org-level-1 ((t (:foreground "#7aa2f7"))))
  '(org-level-2 ((t (:foreground "#bb9af7"))))
  '(org-level-3 ((t (:foreground "#9aa5ce"))))
+ '(org-block-begin-line ((t (:foreground "#565f89"))))
+ '(org-block-end-line ((t (:foreground "#565f89"))))
+ '(org-link ((t (:foreground "#b4f9f8"))))
  '(org-table ((t (:foreground "#9aa5ce"))))
  '(org-verbatim ((t (:foreground "#73daca"))))
  '(org-document-info-keyword ((t (:foreground "#9099c0"))))
- '(org-todo ((t (:foreground "#73daca"))))
+ '(org-todo ((t (:foreground "#73daca" :underline t))))
  '(org-done ((t (:foreground "#9099c0"))))
  '(org-headline-done ((t (:foreground "#9099c0"))))
  '(org-agenda-structure ((t (:foreground "#bb9af7"))))
- '(org-agenda-date ((t (:foreground "#2ac3de"))))
- '(org-agenda-date-weekend ((t (:foreground "#2ac3de"))))
- '(org-agenda-date-weekend-today ((t (:foreground "#2ac3de" :bold t))))
- '(org-agenda-date-today ((t (:foreground "#2ac3de" :bold t))))
+ '(org-agenda-date ((t (:foreground "#2ac3de" :underline t))))
+ '(org-agenda-date-weekend ((t (:foreground "#2ac3de" :underline t))))
+ '(org-agenda-date-weekend-today ((t (:foreground "#2ac3de" :underline t :bold t))))
+ '(org-agenda-date-today ((t (:foreground "#2ac3de" :underline t :bold t))))
  '(org-scheduled-previously ((t (:foreground "#c0caf5"))))
- '(org-imminent-deadline ((t (:foreground "#f19999"))))
+ '(org-imminent-deadline ((t (:foreground "#f7768e"))))
  '(org-upcoming-deadline ((t (:foreground "#8c93b2"))))
+ '(org-agenda-current-time ((t (:foreground "#ff9e64"))))
 
  ;; Calendar
  '(holiday ((t (:background nil :foreground "#f7768e"))))
@@ -73,7 +78,10 @@
  ;; Diff-hl
  '(diff-hl-insert ((t (:inherit default :foreground "#9ece6a"))))
  '(diff-hl-change ((t (:inherit default :foreground "#e0af68"))))
- '(diff-hl-delete ((t (:inherit default :foreground "#f7768e")))))
+ '(diff-hl-delete ((t (:inherit default :foreground "#f7768e"))))
+
+ ;; Vc
+ '(vc-edited-state ((t (:foreground "#f7768e")))))
 
 ;;;###autoload
 (when load-file-name

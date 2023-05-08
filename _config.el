@@ -1,63 +1,3 @@
-#+title: GNU Emacs Literate Configuration
-#+author: artjeremie
-#+date: [2022-08-07 Sun]
-#+description: Personal GNU Emacs Configuration for Windows 10
-#+startup: overview
-
-* Table of Contents                                                            :Toc:Quote:
-#+BEGIN_QUOTE
-- [[#overview][Overview]]
-- [[#header][Header]]
-- [[#defaults][Defaults]]
-  - [[#general][General]]
-  - [[#organize][Organize]]
-  - [[#garbage][Garbage]]
-  - [[#keybinds][Keybinds]]
-- [[#display][Display]]
-  - [[#fonts][Fonts]]
-  - [[#divider][Divider]]
-- [[#spell-check][Spell-check]]
-- [[#dired][Dired]]
-- [[#gnus][Gnus]]
-- [[#feeds][Feeds]]
-- [[#org-mode][Org-mode]]
-  - [[#settings][Settings]]
-  - [[#agenda][Agenda]]
-  - [[#capture][Capture]]
-  - [[#org-appear][Org-appear]]
-  - [[#habit][Habit]]
-- [[#calendar][Calendar]]
-- [[#markdown][Markdown]]
-- [[#snippet][Snippet]]
-- [[#completion][Completion]]
-  - [[#corfu][Corfu]]
-  - [[#vertico][Vertico]]
-- [[#language][Language]]
-  - [[#lua][Lua]]
-  - [[#python][Python]]
-- [[#git][Git]]
-  - [[#diff][Diff]]
-- [[#misc][Misc]]
-  - [[#rainbow][Rainbow]]
-  - [[#emoji][Emoji]]
-  - [[#helpful][Helpful]]
-  - [[#toc][Toc]]
-  - [[#olivetti][Olivetti]]
-- [[#footer][Footer]]
-#+END_QUOTE
-
-* Overview
-This *Org* document is a literate configuration for GNU Emacs. Download and
-install all packages with function =_package-update= =C-c u=. Code blocks
-written here will automatically extracted after Emacs restart and will
-generate main configuration =_config.el=.
-
-[[./artjeremie.png]]
-
-* Header
-Header for =_config.el=.
-
-#+begin_src emacs-lisp
 ;;; _config.el --- Emacs Personal Configuration -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022-2023 artjeremie
@@ -71,15 +11,7 @@ Header for =_config.el=.
 ;; This file has been generated from `README.org' *DO NOT EDIT*.
 
 ;;; Code:
-#+end_src
 
-* Defaults
-Minimal defaults.
-
-** General
-Override some of the default settings.
-
-#+begin_src emacs-lisp
 (setq-default ad-redefinition-action 'accept)
 (setq-default ring-bell-function 'ignore)
 (setq-default enable-local-variables :safe)
@@ -112,14 +44,7 @@ Override some of the default settings.
 (save-place-mode 1)
 (mouse-avoidance-mode 'exile)
 (set-default-coding-systems 'utf-8)
-#+end_src
 
-** Organize
-I use =no-littering= to avoid all littering of files in =user-emacs-directory=.
-Move customization settings in a temporary file *custom.el* to keep it clean,
-and set good defaults for backup files.
-
-#+begin_src emacs-lisp
 (require 'no-littering)
 
 (setq auto-save-file-name-transforms
@@ -141,22 +66,12 @@ and set good defaults for backup files.
 (setq auto-save-list-file-prefix nil)
 (setq mode-require-final-newline nil)
 (setq large-file-warning-threshold nil)
-#+end_src
 
-** Garbage
-Garbage-collect on focus out, Emacs /should/ feel snappier overall.
-
-#+begin_src emacs-lisp
 (add-function :after after-focus-change-function
               (defun _garbage-collect-maybe ()
                 (unless (frame-focus-state)
                   (garbage-collect))))
-#+end_src
 
-** Keybinds
-Set and unset keybindings.
-
-#+begin_src emacs-lisp
 (global-unset-key (kbd "C-x C-z"))
 (global-unset-key (kbd "C-z"))
 
@@ -169,27 +84,14 @@ Set and unset keybindings.
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-0") 'text-scale-set)
-#+end_src
 
-* Display
-Fonts and Ui related.
-
-** Fonts
-Default fonts for Ui display and emojis.
-
-#+begin_src emacs-lisp
 (set-face-attribute 'default nil :family "Iosevka" :height 160)
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
 (set-face-attribute 'variable-pitch nil :family "Iosevka Aile")
 
 (set-fontset-font t 'unicode (font-spec
                               :family "Segoe UI Emoji") nil 'prepend)
-#+end_src
 
-** Divider
-Window dividers appearance.
-
-#+begin_src emacs-lisp
 (modify-all-frames-parameters
  '((right-divider-width . 40)
    (internal-border-width . 40)))
@@ -200,12 +102,7 @@ Window dividers appearance.
 (window-divider-mode t)
 
 (add-hook 'before-make-frame-hook 'window-divider-mode)
-#+end_src
 
-* Spell-check
-Download [[https://sourceforge.net/projects/ezwinports/files/][hunspell-bin.zip]].
-
-#+begin_src emacs-lisp
 (setq-default ispell-program-name "c:/Users/artjeremie/hunspell/bin/hunspell")
 (setq ispell-personal-dictionary "en_US")
 (setq-default ispell-local-dictionary "en_US")
@@ -219,12 +116,7 @@ Download [[https://sourceforge.net/projects/ezwinports/files/][hunspell-bin.zip]
   (when (boundp 'flyspell-mode-map)
     (define-key flyspell-mode-map (kbd "C-c b") 'flyspell-buffer)
     (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)))
-#+end_src
 
-* Dired
-Convenient way to manage files and directories inside Emacs.
-
-#+begin_src emacs-lisp
 (with-eval-after-load 'dired
   (require 'dired-narrow)
   (setq-default dired-auto-revert-buffer t)
@@ -244,20 +136,7 @@ Convenient way to manage files and directories inside Emacs.
     (define-key dired-mode-map (kbd "<tab>") 'dired-subtree-toggle)))
 
 (global-set-key (kbd "C-c t") 'dired-sidebar-toggle-sidebar)
-#+end_src
 
-* Gnus
-Emacs package for /reading/ and /sending/ mail.
-
-| *Keybind* | *Command*                          | *Description*       |
-|---------+----------------------------------+-------------------|
-| =[#]=     | gnus-summary-mark-as-processable | /Mark mail/         |
-| =[B DEL]= | gnus-summary-delete-article      | /Delete mail/       |
-| =[B m]=   | gnus-summary-move-article        | /Move mail/         |
-| =[m]=     | gnus-summary-mail-other-window   | /Compose new mail/  |
-| =[E]=     | gnus-summary-mark-as-expirable   | /Mark as expirable/ |
-
-#+begin_src emacs-lisp
 (setq user-mail-address "artjeremie@gmail.com")
 (setq user-full-name "artjeremie")
 
@@ -306,24 +185,7 @@ Emacs package for /reading/ and /sending/ mail.
 (setq-default gnus-parameters '((".*" (display . all))))
 
 (global-set-key (kbd "C-c m") 'gnus)
-#+end_src
 
-* Feeds
-*Elfeed* is an extensible web feed reader for Emacs.
-
-| *Keybind* | *Command*                        | *Description*               |
-|---------+--------------------------------+---------------------------|
-| =[b]=     | elfeed-search-browse-url       | /Open article in browser/   |
-| =[G]=     | elfeed-search-fetch            | /Fetch updates from server/ |
-| =[s]=     | elfeed-search-live-filter      | /Update search filter/      |
-| =[c]=     | elfeed-search-clear-filter     | /Clear search filter/       |
-| =[r]=     | elfeed-search-untag-all-unread | /Mark as unread/            |
-| =[u]=     | elfeed-search-tag-all-unread   | /Mark as read/              |
-| =[g]=     | elfeed-search-update--force    | /Refresh and remove unread/ |
-| =[q]=     | elfeed-search-quit-window      | /Quit browser/              |
-| =[v]=     | _elfeed-play-with-mpv          | /Open youtube feeds in mpv/ |
-
-#+begin_src emacs-lisp
 (defvar elfeed-show-entry)
 
 (cl-defstruct (elfeed-entry (:constructor elfeed-entry--create))
@@ -384,15 +246,7 @@ Emacs package for /reading/ and /sending/ mail.
     (define-key elfeed-search-mode-map (kbd "V") '_elfeed-play-with-mpv-mark-entry)))
 
 (global-set-key (kbd "C-c w") 'elfeed)
-#+end_src
 
-* Org-mode
-Best for keeping notes, maintaining *TODO* lists and planning projects.
-
-** Settings
-Preferred settings for =org-mode=.
-
-#+begin_src emacs-lisp
 (defconst _notes-path
   (expand-file-name "notes.org" "c:/Users/artjeremie/Dropbox/emacs/notes")
   "Path to personal notes file.")
@@ -427,12 +281,7 @@ Preferred settings for =org-mode=.
   (define-key org-mode-map (kbd "C-,") nil))
 
 (global-set-key (kbd "C-;") '_find-notes)
-#+end_src
 
-** Agenda
-Planning and scheduling.
-
-#+begin_src emacs-lisp
 (defun _org-agenda-view-startup ()
   "Agenda view schedule on Emacs startup."
   (org-agenda nil "c"))
@@ -545,12 +394,7 @@ Planning and scheduling.
 (global-set-key (kbd "C-'") 'org-cycle-agenda-files)
 
 (add-hook 'after-init-hook '_org-agenda-view-startup)
-#+end_src
 
-** Capture
-Quickly store notes or templates.
-
-#+begin_src emacs-lisp
 (defvar org-agenda-files)
 
 (defun _org-file-autosave-refile ()
@@ -597,30 +441,15 @@ Quickly store notes or templates.
                  "* TODO %?\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")))
 
 (global-set-key (kbd "C-c c") 'org-capture)
-#+end_src
 
-** Org-appear
-Make invisible parts of Org elements appear visible.
-
-#+begin_src emacs-lisp
 (setq-default org-appear-autolinks t)
 
 (add-hook 'org-mode-hook 'org-appear-mode)
-#+end_src
 
-** Habit
-Track the consistency of a /special/ category of *TODO*.
-
-#+begin_src emacs-lisp
 (setq-default org-modules '(org-habit))
 (setq-default org-habit-graph-column 40)
 (setq-default org-habit-show-habits-only-for-today nil)
-#+end_src
 
-* Calendar
-Birthday, anniversary and holiday /reminder/.
-
-#+begin_src emacs-lisp
 (setq-default diary-file "c:/Users/artjeremie/Dropbox/emacs/diary/diary")
 (setq-default calendar-mark-diary-entries-flag t)
 (setq-default calendar-mark-holidays-flag t)
@@ -659,34 +488,16 @@ Birthday, anniversary and holiday /reminder/.
         (holiday-fixed 11 27 "Bonifacio Day")
         (holiday-fixed 12 8 "Feast of the Immaculate Conception of Mary")
         (holiday-fixed 12 30 "Rizal Day")))
-#+end_src
 
-* Markdown
-Markup language that i mostly use for some simple /readme's/.
-
-#+begin_src emacs-lis
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-#+end_src
 
-* Snippet
-Template system for Emacs.
-
-#+begin_src emacs-lisp
 (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (setq-default yas-verbosity 2)
 
 (global-set-key (kbd "C-c s") 'yas-insert-snippet)
 
 (add-hook 'after-init-hook 'yas-global-mode)
-#+end_src
 
-* Completion
-Preferred completions.
-
-** Corfu
-Enhances completion at point with a small completion popup.
-
-#+begin_src emacs-lisp
 (setq-default corfu-auto t)
 (setq-default corfu-quit-no-match 'separator)
 (setq-default corfu-popupinfo-delay 0.2)
@@ -706,13 +517,7 @@ Enhances completion at point with a small completion popup.
           (lambda ()
             (setq-local corfu-auto nil)
             (corfu-mode)))
-#+end_src
 
-** Vertico
-*Vertico* helps to rapidly complete file names, buffer names, or any other
-Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
-
-#+begin_src emacs-lisp
 (setq-default vertico-count-format '("%-5s " . "%2$s"))
 (setq-default vertico-resize nil)
 (setq-default vertico-cycle t)
@@ -735,36 +540,15 @@ Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 (global-set-key (kbd "C-s") 'consult-line)
 (global-set-key (kbd "C-r") 'consult-ripgrep)
 (global-set-key (kbd "C-x b") 'consult-buffer)
-#+end_src
 
-* Language
-Programming language specifics.
-
-** Lua
-Syntax for lua files.
-
-#+begin_src emacs-lisp
 (setq-default lua-indent-level 4)
 
 (add-to-list 'auto-mode-alist '("\\.lua$'" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-#+end_src
 
-** Python
-Preferred python defaults.
-
-#+begin_src emacs-lisp
 (setq-default python-shell-interpreter "python")
 (setq-default python-indent-guess-indent-offset-verbose nil)
-#+end_src
 
-* Git
-Tracks changes to a file or directory.
-
-** Diff
-Display Git /changes/ indicators in the =left-fringe=.
-
-#+begin_src emacs-lisp
 (let* ((height (frame-char-height))
        (width 2)
        (ones (1- (expt 2 width)))
@@ -779,69 +563,34 @@ Display Git /changes/ indicators in the =left-fringe=.
 (add-hook 'text-mode-hook 'diff-hl-mode)
 (add-hook 'prog-mode-hook 'diff-hl-mode)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-#+end_src
 
-* Misc
-Quality of life packages.
-
-** Rainbow
-Sets background color to strings that match color names.
-
-#+begin_src emacs-lisp
 (add-hook 'text-mode-hook 'rainbow-mode)
 (add-hook 'prog-mode-hook 'rainbow-mode)
-#+end_src
 
-** Emoji
-Show emojis in Emacs. 😊
-
-#+begin_src emacs-lisp
 (setq-default emojify-display-style 'unicode)
 (setq-default emojify-emoji-styles '(unicode))
 
 (global-set-key (kbd "C-c e") 'emojify-insert-emoji)
 
 (add-hook 'after-init-hook 'global-emojify-mode)
-#+end_src
 
-** Helpful
-Improves the built-in Emacs help system by providing more contextual
-information.
-
-#+begin_src emacs-lisp
 (setq-default helpful-max-buffers 2)
 
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-command] 'helpful-command)
 (global-set-key [remap describe-variable] 'helpful-variable)
 (global-set-key [remap describe-function] 'helpful-callable)
-#+end_src
 
-** Toc
-Generate /table of contents/ for *Org* and *Markdown* documents.
-
-#+begin_src emacs-lisp
 (add-hook 'org-mode-hook 'toc-org-mode)
 (add-hook 'markdown-mode-hook 'toc-org-mode)
-#+end_src
 
-** Olivetti
-Center your buffer for /aesthetics/ and /focus/.
-
-#+begin_src emacs-lisp
 (global-set-key (kbd "C-c o") 'olivetti-mode)
 
 (add-hook 'olivetti-mode-hook
           (lambda ()
             (interactive)
             (setq-default olivetti-body-width 90)))
-#+end_src
 
-* Footer
-Detect truncated versions of the file from the lack of footer line.
-
-#+begin_src emacs-lisp
 (provide '_config)
 
 ;;; _config.el ends here
-#+end_src

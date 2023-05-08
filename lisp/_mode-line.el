@@ -1,4 +1,4 @@
-;;; modeline-init.el --- Modeline -*- lexical-binding: t -*-
+;;; _mode-line.el --- Modeline -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022-2023 artjeremie
 
@@ -17,15 +17,15 @@
     rainbow-mode
     yas-minor-mode))
 
-(defun art-purge-minor-modes ()
+(defun _purge-minor-modes ()
   "Hide some minor modes in `mode-line'."
   (dolist (x hidden-minor-modes nil)
     (let ((trg (cdr (assoc x minor-mode-alist))))
       (when trg (setcar trg "")))))
 
-(add-hook 'after-change-major-mode-hook 'art-purge-minor-modes)
+(add-hook 'after-change-major-mode-hook '_purge-minor-modes)
 
-(defun art-modeline-padding ()
+(defun _modeline-padding ()
   "Padding for `mode-line'."
   (let ((r-length
          (length (format-mode-line mode-line-end-spaces))))
@@ -45,7 +45,7 @@
                 "%I "
                 "%b "
                 "%l:%c "
-                (:eval (art-modeline-padding))
+                (:eval (_modeline-padding))
                 mode-line-end-spaces))
 
-;;; modeline-init.el ends here
+;;; _mode-line.el ends here

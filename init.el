@@ -18,12 +18,11 @@
 
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-  (load "uistyle-init" nil t)
-  (load "modeline-init" nil t)
-  (load "prog-init" nil t)
-  (load "pkglist-init" nil t)
+  (load "_mode-line" nil t)
+  (load "_prog-mode" nil t)
+  (load "_packages" nil t)
 
-  (let ((user-settings "~/.emacs.d/artconfig.el"))
+  (let ((user-settings "~/.emacs.d/_config.el"))
     (when (file-exists-p user-settings)
       (load user-settings nil t)))
 
