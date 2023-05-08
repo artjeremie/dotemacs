@@ -3,4 +3,4 @@ etc/
 server/
 transient/
 var/
-artconfig.el
+_config.el

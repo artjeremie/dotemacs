@@ -501,7 +501,6 @@ Planning and scheduling.
                   (agenda ""
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
-                           ;; (org-agenda-time-grid nil)
                            (org-scheduled-past-days 0)
                            (org-agenda-span 0)
                            (org-agenda-entry-types '(:scheduled))
