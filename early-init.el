@@ -15,6 +15,7 @@
 
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(tooltip-mode -1)
 
 (dolist (var '(default-frame-alist initial-frame-alist))
   (add-to-list var '(width . (text-pixels . 1280)))
