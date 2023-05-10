@@ -86,6 +86,7 @@ Override some of the default settings.
 (setq-default cursor-in-non-selected-windows nil)
 (setq-default cursor-type 'bar)
 (setq-default fill-column 90)
+(setq-default default-justification 'full)
 (setq-default column-number-mode t)
 (setq-default display-line-numbers-width 3)
 (setq-default delete-by-moving-to-trash t)
@@ -427,6 +428,8 @@ Preferred settings for =org-mode=.
   (define-key org-mode-map (kbd "C-,") nil))
 
 (global-set-key (kbd "C-;") '_find-notes)
+
+;; (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 #+end_src
 
 ** Agenda
@@ -482,7 +485,7 @@ Planning and scheduling.
               '("" "In-%1dd" "Overdue %1dd"))
 
 (setq-default org-agenda-prefix-format
-              '((agenda  . "  %?-10T %?-16t% s")
+              '((agenda  . "  %?-8T %?-16t% s")
                 (todo   . "  %i")
                 (tags   . "  %i")
                 (search . "  %i")))
@@ -530,20 +533,6 @@ Planning and scheduling.
 Quickly store notes or templates.
 
 #+begin_src emacs-lisp
-(defvar org-agenda-files)
-
-(defun _org-file-autosave-refile ()
-  "Autosave capture org documents after refile."
-  (message "Saving org agenda document buffer...")
-  (save-some-buffers t
-                     (lambda ()
-                       (when (member (buffer-file-name) org-agenda-files) t)))
-  (message "Saving org agenda document buffer...  done!"))
-
-(advice-add 'org-refile :after
-            (lambda (&rest _)
-              (_org-file-autosave-refile)))
-
 (setq-default org-refile-targets
               '((nil :maxlevel . 1)
                 (org-agenda-files :maxlevel . 1)))
@@ -551,29 +540,31 @@ Quickly store notes or templates.
 (setq-default org-capture-templates
               '(("a" "Agenda Entries")
                 ("ae" "Entry Task" entry (file "gtd.org")
-                 "* TODO %?")
+                 "* TODO %? %^G")
                 ("as" "Scheduled Task" entry (file "gtd.org")
-                 "* TODO %?\nSCHEDULED: %^t")
+                 "* TODO %? %^G\nSCHEDULED: %^t")
                 ("ad" "Deadline Task" entry (file "gtd.org")
-                 "* TODO %?\nDEADLINE: %^t")
+                 "* TODO %? %^G\nDEADLINE: %^t")
                 ("s" "Schedule Repeated")
                 ("sd" "Daily" entry (file "gtd.org")
-                 "* TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
+                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
                 ("sw" "Weekly" entry (file "gtd.org")
-                 "* TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
+                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
                 ("sm" "Monthly" entry (file "gtd.org")
-                 "* TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
+                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
                 ("sy" "Yearly" entry (file "gtd.org")
-                 "* TODO %?\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")
+                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")
                 ("d" "Deadline Repeated")
                 ("dd" "Daily" entry (file "gtd.org")
-                 "* TODO %?\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
+                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
                 ("dw" "Weekly" entry (file "gtd.org")
-                 "* TODO %?\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
+                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
                 ("dm" "Monthly" entry (file "gtd.org")
-                 "* TODO %?\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
+                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
                 ("dy" "Yearly" entry (file "gtd.org")
-                 "* TODO %?\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")))
+                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")))
+
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
 
 (global-set-key (kbd "C-c c") 'org-capture)
 #+end_src
@@ -681,10 +672,10 @@ Enhances completion at point with a small completion popup.
 (add-to-list 'completion-at-point-functions 'cape-dabbrev)
 (add-to-list 'completion-at-point-functions 'cape-file)
 
-(add-hook 'eshell-mode-hook
-          (lambda ()
-            (setq-local corfu-auto nil)
-            (corfu-mode)))
+;; (add-hook 'eshell-mode-hook
+          ;; (lambda ()
+            ;; (setq-local corfu-auto nil)
+            ;; (corfu-mode)))
 #+end_src
 
 ** Vertico
@@ -714,6 +705,8 @@ Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 (global-set-key (kbd "C-s") 'consult-line)
 (global-set-key (kbd "C-r") 'consult-ripgrep)
 (global-set-key (kbd "C-x b") 'consult-buffer)
+
+(add-hook 'after-init-hook 'marginalia-mode)
 #+end_src
 
 * Language
