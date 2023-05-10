@@ -41,6 +41,7 @@
                 orderless
                 org-appear
                 powershell
+                rainbow-delimiters
                 rainbow-mode
                 rg
                 toc-org
