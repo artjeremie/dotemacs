@@ -53,6 +53,8 @@
  '(org-document-info-keyword ((t (:foreground "#9099c0"))))
  '(org-todo ((t (:foreground "#73daca" :underline t))))
  '(org-done ((t (:foreground "#9099c0"))))
+ '(org-date ((t (:foreground "#e0af68" :underline t))))
+ '(org-checkbox-statistics-todo ((t (:foreground "#e0af68"))))
  '(org-headline-done ((t (:foreground "#9099c0"))))
  '(org-agenda-structure ((t (:foreground "#bb9af7"))))
  '(org-agenda-date ((t (:foreground "#2ac3de" :underline t))))
@@ -79,6 +81,21 @@
  '(diff-hl-insert ((t (:inherit default :foreground "#9ece6a"))))
  '(diff-hl-change ((t (:inherit default :foreground "#e0af68"))))
  '(diff-hl-delete ((t (:inherit default :foreground "#f7768e"))))
+
+ ;; Rainbow-Delimiters
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#7aa2f7"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#bb9af7"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#73daca"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#9aa5ce"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#2ac3de"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#7aa2f7"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#bb9af7"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#73daca"))))
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "#9aa5ce"))))
+ '(rainbow-delimiters-base-face ((t (:inherit default))))
+ '(rainbow-delimiters-base-error-face ((t (:inherit default :foreground "#ff9e64"))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "#ff9e64"))))
+ '(rainbow-delimiters-mismatched-face ((t (:inherit rainbow-delimiters-unmatched-face))))
 
  ;; Vc
  '(vc-edited-state ((t (:foreground "#f7768e")))))
