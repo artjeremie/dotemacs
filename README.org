@@ -38,7 +38,8 @@
 - [[#git][Git]]
   - [[#diff][Diff]]
 - [[#misc][Misc]]
-  - [[#rainbow][Rainbow]]
+  - [[#hex][Hex]]
+  - [[#delmiters][Delmiters]]
   - [[#emoji][Emoji]]
   - [[#helpful][Helpful]]
   - [[#toc][Toc]]
@@ -428,8 +429,6 @@ Preferred settings for =org-mode=.
   (define-key org-mode-map (kbd "C-,") nil))
 
 (global-set-key (kbd "C-;") '_find-notes)
-
-;; (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 #+end_src
 
 ** Agenda
@@ -756,12 +755,19 @@ Display Git /changes/ indicators in the =left-fringe=.
 * Misc
 Quality of life packages.
 
-** Rainbow
+** Hex
 Sets background color to strings that match color names.
 
 #+begin_src emacs-lisp
 (add-hook 'text-mode-hook 'rainbow-mode)
 (add-hook 'prog-mode-hook 'rainbow-mode)
+#+end_src
+
+** Delmiters
+Color matching parenthesis
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+end_src
 
 ** Emoji
