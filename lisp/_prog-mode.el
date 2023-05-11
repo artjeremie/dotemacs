@@ -17,7 +17,6 @@
   (flymake-mode))
 
 (add-hook 'prog-mode-hook '_prog-mode)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (defun _elisp-flymake-byte-compile (old-function &rest arguments)
   "Change `load-path' OLD-FUNCTION ARGUMENTS."
