@@ -25,12 +25,10 @@
  '(fringe ((t (:background "#282c34"))))
  '(region ((t (:background "#414868"))))
  '(selection ((t (:background "#414868"))))
- '(highlight ((t (:background "#3b4261" :foreground "#c0caf5"))))
+ '(highlight ((t (:background "#3b4261" :foreground "#414868" :distant-foreground "#c0caf5"))))
  '(cursor ((t (:background "#b4f9f8"))))
  '(show-paren-match ((t (:background nil :foreground "#f7768e" :underline t :bold t))))
  '(line-number-current-line ((t (:foreground "#7aa2f7"))))
- '(mode-line ((t (:background "#21252b" :foreground "#9da5b4"))))
- '(mode-line-inactive ((t (:background "#181a1f" :foreground "#3e4451"))))
  '(font-lock-comment-face ((t (:foreground "#565f89"))))
  '(font-lock-constant-face ((t (:foreground "#ff9e64"))))
  '(font-lock-keyword-face ((t (:foreground "#bb9af7"))))
@@ -82,6 +80,14 @@
  '(diff-hl-change ((t (:inherit default :foreground "#e0af68"))))
  '(diff-hl-delete ((t (:inherit default :foreground "#f7768e"))))
 
+ ;; Modeline
+ '(mode-line ((t (:background "#21252b" :foreground "#9da5b4"))))
+ '(mode-line-active ((t (:inherit mode-line))))
+ '(mode-line-inactive ((t (:background "#181a1f" :foreground "#3e4451"))))
+ '(mode-line-emphasis ((t (:foreground "#b4f9f8" :distant-foreground "#282c34"))))
+ '(mode-line-highlight ((t (:inherit highlight :distant-foreground "#282c34"))))
+ '(mode-line-buffer-id ((t (:weight bold))))
+
  ;; Rainbow-Delimiters
  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7aa2f7"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "#bb9af7"))))
@@ -98,6 +104,7 @@
  '(rainbow-delimiters-mismatched-face ((t (:inherit rainbow-delimiters-unmatched-face))))
 
  ;; Vc
+ '(vc-up-to-date-state ((t (:foreground "#9ece6a"))))
  '(vc-edited-state ((t (:foreground "#f7768e")))))
 
 ;;;###autoload
