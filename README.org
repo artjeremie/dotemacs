@@ -4,7 +4,7 @@
 #+description: Personal GNU Emacs Configuration for Windows 10
 #+startup: overview
 
-* Table of Contents                                                            :Toc:Quote:
+* Table of Contents                                                              :Toc:Quote:
 #+BEGIN_QUOTE
 - [[#overview][Overview]]
 - [[#header][Header]]
@@ -38,8 +38,8 @@
 - [[#git][Git]]
   - [[#diff][Diff]]
 - [[#misc][Misc]]
-  - [[#hex][Hex]]
-  - [[#delmiters][Delmiters]]
+  - [[#hex-colors][Hex-colors]]
+  - [[#delimiters][Delimiters]]
   - [[#emoji][Emoji]]
   - [[#helpful][Helpful]]
   - [[#toc][Toc]]
@@ -48,12 +48,12 @@
 #+END_QUOTE
 
 * Overview
-This *Org* document is a literate configuration for GNU Emacs. Download and
-install all packages with function =_package-update= =C-c u=. Code blocks
-written here will automatically extracted after Emacs restart and will
-generate main configuration =_config.el=.
+This org document is a literate configuration for GNU Emacs. Download and
+install all packages with function =_package-update= =C-c u=. Code blocks written
+here will automatically extracted if there is known changes to this file, and
+will generate main configuration =_config.el=.
 
-[[./artjeremie.png]]
+[[./artjeremie.png]]]
 
 * Header
 Header for =_config.el=.
@@ -75,51 +75,50 @@ Header for =_config.el=.
 #+end_src
 
 * Defaults
-Minimal defaults.
+Preferred defaults based on my personal preferences.
 
 ** General
 Override some of the default settings.
 
 #+begin_src emacs-lisp
-(setq-default ad-redefinition-action 'accept)
-(setq-default ring-bell-function 'ignore)
-(setq-default enable-local-variables :safe)
-(setq-default cursor-in-non-selected-windows nil)
-(setq-default cursor-type 'bar)
-(setq-default fill-column 90)
-(setq-default default-justification 'full)
-(setq-default column-number-mode t)
-(setq-default display-line-numbers-width 3)
-(setq-default delete-by-moving-to-trash t)
 (setq-default gc-cons-threshold (* 8 1024 1024))
-(setq-default help-window-select t)
-(setq-default indent-tabs-mode nil)
+(setq-default read-process-output-max (* 1024 1024))
+(setq-default ad-redefinition-action 'accept)
+(setq-default inhibit-compacting-font-caches t)
 (setq-default initial-scratch-message "")
 (setq-default initial-major-mode 'org-mode)
-(setq-default inhibit-compacting-font-caches t)
+(setq-default ring-bell-function 'ignore)
+(setq-default help-window-select t)
+(setq-default delete-by-moving-to-trash t)
+(setq-default window-combination-resize t)
+(setq-default comment-multi-line t)
+(setq-default sentence-end-double-space nil)
+(setq-default electric-pair-preserve-balance nil)
+(setq-default auto-revert-verbose nil)
+(setq-default column-number-mode t)
+(setq-default display-line-numbers-width 3)
+(setq-default fill-column 80)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default cursor-in-non-selected-windows nil)
+(setq-default cursor-type '(bar . 3))
 (setq-default mouse-yank-at-point t)
-(setq-default read-process-output-max (* 1024 1024))
 (setq-default scroll-margin 1)
 (setq-default scroll-step 1)
 (setq-default scroll-conservatively 101)
 (setq-default scroll-preserve-screen-position 1)
-(setq-default sentence-end-double-space nil)
-(setq-default tab-width 4)
-(setq-default electric-pair-preserve-balance nil)
-(setq-default window-combination-resize t)
-(setq-default auto-revert-verbose nil)
+
 (blink-cursor-mode 0)
-(electric-pair-mode t)
-(global-auto-revert-mode)
+(electric-pair-mode 1)
 (save-place-mode 1)
+(global-auto-revert-mode)
 (mouse-avoidance-mode 'exile)
 (set-default-coding-systems 'utf-8)
 #+end_src
 
 ** Organize
-I use =no-littering= to avoid all littering of files in =user-emacs-directory=.
-Move customization settings in a temporary file *custom.el* to keep it clean,
-and set good defaults for backup files.
+I use =no-littering= to keep =user-emacs-directory= clean and move temporary
+customization settings in =custom.el=. Set preferred defaults for backup files.
 
 #+begin_src emacs-lisp
 (require 'no-littering)
@@ -132,9 +131,9 @@ and set good defaults for backup files.
 (when (file-exists-p custom-file)
   (load custom-file nil t))
 
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq version-control t)
 (setq backup-by-copying t)
-(setq make-backup-files nil)
 (setq delete-old-versions t)
 (setq kept-new-versions 2)
 (setq kept-old-versions 2)
@@ -156,7 +155,7 @@ Garbage-collect on focus out, Emacs /should/ feel snappier overall.
 #+end_src
 
 ** Keybinds
-Set and unset keybindings.
+Essential keybindings.
 
 #+begin_src emacs-lisp
 (global-unset-key (kbd "C-x C-z"))
@@ -174,10 +173,10 @@ Set and unset keybindings.
 #+end_src
 
 * Display
-Fonts and Ui related.
+Fonts and Ui.
 
 ** Fonts
-Default fonts for Ui display and emojis.
+Default fonts for Ui and emojis.
 
 #+begin_src emacs-lisp
 (set-face-attribute 'default nil :family "Iosevka" :height 160)
@@ -251,7 +250,7 @@ Convenient way to manage files and directories inside Emacs.
 * Gnus
 Emacs package for /reading/ and /sending/ mail.
 
-| *Keybind* | *Command*                          | *Description*       |
+| *Key*     | *Command*                          | *Description*       |
 |---------+----------------------------------+-------------------|
 | =[#]=     | gnus-summary-mark-as-processable | /Mark mail/         |
 | =[B DEL]= | gnus-summary-delete-article      | /Delete mail/       |
@@ -313,17 +312,17 @@ Emacs package for /reading/ and /sending/ mail.
 * Feeds
 *Elfeed* is an extensible web feed reader for Emacs.
 
-| *Keybind* | *Command*                        | *Description*               |
-|---------+--------------------------------+---------------------------|
-| =[b]=     | elfeed-search-browse-url       | /Open article in browser/   |
-| =[G]=     | elfeed-search-fetch            | /Fetch updates from server/ |
-| =[s]=     | elfeed-search-live-filter      | /Update search filter/      |
-| =[c]=     | elfeed-search-clear-filter     | /Clear search filter/       |
-| =[r]=     | elfeed-search-untag-all-unread | /Mark as unread/            |
-| =[u]=     | elfeed-search-tag-all-unread   | /Mark as read/              |
-| =[g]=     | elfeed-search-update--force    | /Refresh and remove unread/ |
-| =[q]=     | elfeed-search-quit-window      | /Quit browser/              |
-| =[v]=     | _elfeed-play-with-mpv          | /Open youtube feeds in mpv/ |
+| *Key* | *Command*                        | *Description*               |
+|-----+--------------------------------+---------------------------|
+| =[b]= | elfeed-search-browse-url       | /Open article/              |
+| =[G]= | elfeed-search-fetch            | /Fetch updates from server/ |
+| =[s]= | elfeed-search-live-filter      | /Update search filter/      |
+| =[c]= | elfeed-search-clear-filter     | /Clear search filter/       |
+| =[r]= | elfeed-search-untag-all-unread | /Mark as unread/            |
+| =[u]= | elfeed-search-tag-all-unread   | /Mark as read/              |
+| =[g]= | elfeed-search-update--force    | /Refresh and remove unread/ |
+| =[q]= | elfeed-search-quit-window      | /Quit elfeed/               |
+| =[v]= | _elfeed-play-with-mpv          | /Open youtube feeds in mpv/ |
 
 #+begin_src emacs-lisp
 (defvar elfeed-show-entry)
@@ -409,13 +408,12 @@ Preferred settings for =org-mode=.
 (setq-default org-startup-indented nil)
 (setq-default org-edit-src-content-indentation 0)
 (setq-default org-src-window-setup 'current-window)
+(setq-default org-tags-column -92)
 (setq-default org-return-follows-link t)
 (setq-default org-image-actual-width nil)
 (setq-default org-link-descriptive t)
 (setq-default org-hide-emphasis-markers t)
-(setq-default org-pretty-entities t)
 (setq-default org-hide-leading-stars t)
-(setq-default org-tags-column -90)
 (setq-default org-special-ctrl-a/e t)
 (setq-default org-catch-invisible-edits 'show-and-error)
 
@@ -429,6 +427,8 @@ Preferred settings for =org-mode=.
   (define-key org-mode-map (kbd "C-,") nil))
 
 (global-set-key (kbd "C-;") '_find-notes)
+
+(add-hook 'text-mode-hook 'auto-fill-mode)
 #+end_src
 
 ** Agenda
@@ -439,16 +439,12 @@ Planning and scheduling.
   "Agenda view schedule on Emacs startup."
   (org-agenda nil "c"))
 
-(setq-default org-agenda-files
-              (mapcar 'file-truename
-                      (file-expand-wildcards
-                       "c:/Users/artjeremie/Dropbox/emacs/org/*.org")))
-
+(setq-default org-agenda-files (list "gtd.org" "purge.org"))
 (setq-default org-agenda-start-on-weekday 1)
 (setq-default org-agenda-timegrid-use-ampm 1)
 (setq-default org-agenda-show-all-dates nil)
 (setq-default org-agenda-remove-tags t)
-(setq-default org-agenda-tags-column -90)
+(setq-default org-agenda-tags-column -92)
 (setq-default org-agenda-window-setup 'current-window)
 (setq-default org-agenda-skip-deadline-if-done t)
 (setq-default org-agenda-skip-schedule-if-done t)
@@ -511,7 +507,7 @@ Planning and scheduling.
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
                            (org-agenda-time-grid nil)
-                           (org-scheduled-past-days 0)
+                           ;; (org-scheduled-past-days 0)
                            (org-agenda-entry-types '(:scheduled))
                            (org-agenda-overriding-header "\nWeekly Schedule")))
                   (agenda ""
@@ -543,25 +539,7 @@ Quickly store notes or templates.
                 ("as" "Scheduled Task" entry (file "gtd.org")
                  "* TODO %? %^G\nSCHEDULED: %^t")
                 ("ad" "Deadline Task" entry (file "gtd.org")
-                 "* TODO %? %^G\nDEADLINE: %^t")
-                ("s" "Schedule Repeated")
-                ("sd" "Daily" entry (file "gtd.org")
-                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
-                ("sw" "Weekly" entry (file "gtd.org")
-                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
-                ("sm" "Monthly" entry (file "gtd.org")
-                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
-                ("sy" "Yearly" entry (file "gtd.org")
-                 "* TODO %? %^G\nSCHEDULED: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")
-                ("d" "Deadline Repeated")
-                ("dd" "Daily" entry (file "gtd.org")
-                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1d\>\")")
-                ("dw" "Weekly" entry (file "gtd.org")
-                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1w\>\")")
-                ("dm" "Monthly" entry (file "gtd.org")
-                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1m\>\")")
-                ("dy" "Yearly" entry (file "gtd.org")
-                 "* TODO %? %^G\nDEADLINE: %(concat \"<\" (format-time-string \"%Y-%m-%d\") \" +1y\>\")")))
+                 "* TODO %? %^G\nDEADLINE: %^t")))
 
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
@@ -633,7 +611,7 @@ Birthday, anniversary and holiday /reminder/.
 * Markdown
 Markup language that i mostly use for some simple /readme's/.
 
-#+begin_src emacs-lis
+#+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 #+end_src
 
@@ -670,16 +648,11 @@ Enhances completion at point with a small completion popup.
 (advice-add 'pcomplete-completions-at-point :around 'cape-wrap-purify)
 (add-to-list 'completion-at-point-functions 'cape-dabbrev)
 (add-to-list 'completion-at-point-functions 'cape-file)
-
-;; (add-hook 'eshell-mode-hook
-          ;; (lambda ()
-            ;; (setq-local corfu-auto nil)
-            ;; (corfu-mode)))
 #+end_src
 
 ** Vertico
-*Vertico* helps to rapidly complete file names, buffer names, or any other
-Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
+*Vertico* helps to rapidly complete file names, buffer names, or any other Emacs
+interactions, together with *Orderless*, *Consult* and *Marginalia*.
 
 #+begin_src emacs-lisp
 (setq-default vertico-count-format '("%-5s " . "%2$s"))
@@ -704,8 +677,6 @@ Emacs interactions, together with *Orderless*, *Consult* and *Marginalia*.
 (global-set-key (kbd "C-s") 'consult-line)
 (global-set-key (kbd "C-r") 'consult-ripgrep)
 (global-set-key (kbd "C-x b") 'consult-buffer)
-
-(add-hook 'after-init-hook 'marginalia-mode)
 #+end_src
 
 * Language
@@ -722,7 +693,7 @@ Syntax for lua files.
 #+end_src
 
 ** Python
-Preferred python defaults.
+Python defaults.
 
 #+begin_src emacs-lisp
 (setq-default python-shell-interpreter "python")
@@ -755,7 +726,7 @@ Display Git /changes/ indicators in the =left-fringe=.
 * Misc
 Quality of life packages.
 
-** Hex
+** Hex-colors
 Sets background color to strings that match color names.
 
 #+begin_src emacs-lisp
@@ -763,8 +734,8 @@ Sets background color to strings that match color names.
 (add-hook 'prog-mode-hook 'rainbow-mode)
 #+end_src
 
-** Delmiters
-Color matching parenthesis
+** Delimiters
+Color matching parenthesis.
 
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -812,7 +783,7 @@ Center your buffer for /aesthetics/ and /focus/.
 (add-hook 'olivetti-mode-hook
           (lambda ()
             (interactive)
-            (setq-default olivetti-body-width 90)))
+            (setq-default olivetti-body-width 80)))
 #+end_src
 
 * Footer
