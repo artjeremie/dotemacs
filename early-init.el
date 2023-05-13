@@ -19,9 +19,11 @@
 (tooltip-mode -1)
 
 (dolist (var '(default-frame-alist initial-frame-alist))
-  (add-to-list var '(width . (text-pixels . 1280)))
-  (add-to-list var '(height . (text-pixels . 900)))
-  (add-to-list var '(font . "Iosevka-16")))
+  (add-to-list var '(width . (text-pixels . 1125)))
+  (add-to-list var '(height . (text-pixels . 1200)))
+  (add-to-list var '(font . "Iosevka-16"))
+  (add-to-list var '(top . -91))
+  (add-to-list var '(left . 913)))
 
 (setq frame-resize-pixelwise t)
 (setq frame-inhibit-implied-resize t)
