@@ -676,6 +676,8 @@ interactions, together with *Orderless*, *Consult* and *Marginalia*.
 (global-set-key (kbd "C-s") 'consult-line)
 (global-set-key (kbd "C-r") 'consult-ripgrep)
 (global-set-key (kbd "C-x b") 'consult-buffer)
+
+(add-hook 'after-init-hook 'marginalia-mode)
 #+end_src
 
 * Language
