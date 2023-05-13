@@ -473,7 +473,7 @@ Planning and scheduling.
 (setq-default org-agenda-current-time-string " Now")
 
 (setq-default org-agenda-scheduled-leaders
-              '("" "Sched.%2dx: "))
+              '("" "%2dx"))
 
 (setq-default org-agenda-deadline-leaders
               '("" "In-%1dd" "Overdue %1dd"))
@@ -664,7 +664,7 @@ interactions, together with *Orderless*, *Consult* and *Marginalia*.
 
 (add-hook 'after-init-hook 'vertico-mode)
 
-(setq completion-styles '(orderless))
+(setq completion-styles '(orderless basic))
 (setq-default orderless-component-separator
               'orderless-escapable-split-on-space)
 (setq completion-category-overrides
