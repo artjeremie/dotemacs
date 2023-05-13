@@ -35,7 +35,6 @@
 - [[#language][Language]]
   - [[#lua][Lua]]
   - [[#python][Python]]
-- [[#git][Git]]
   - [[#diff][Diff]]
 - [[#misc][Misc]]
   - [[#hex-colors][Hex-colors]]
@@ -499,6 +498,7 @@ Planning and scheduling.
                   (agenda ""
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
+                           (org-agenda-include-diary t)
                            (org-scheduled-past-days 0)
                            (org-agenda-span 0)
                            (org-agenda-entry-types '(:scheduled))
@@ -507,7 +507,6 @@ Planning and scheduling.
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
                            (org-agenda-time-grid nil)
-                           ;; (org-scheduled-past-days 0)
                            (org-agenda-entry-types '(:scheduled))
                            (org-agenda-overriding-header "\nWeekly Schedule")))
                   (agenda ""
@@ -700,7 +699,7 @@ Python defaults.
 (setq-default python-indent-guess-indent-offset-verbose nil)
 #+end_src
 
-* Git
+f* Git
 Tracks changes to a file or directory.
 
 ** Diff
