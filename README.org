@@ -35,6 +35,7 @@
 - [[#language][Language]]
   - [[#lua][Lua]]
   - [[#python][Python]]
+- [[#git][Git]]
   - [[#diff][Diff]]
 - [[#misc][Misc]]
   - [[#hex-colors][Hex-colors]]
@@ -701,7 +702,7 @@ Python defaults.
 (setq-default python-indent-guess-indent-offset-verbose nil)
 #+end_src
 
-f* Git
+* Git
 Tracks changes to a file or directory.
 
 ** Diff
