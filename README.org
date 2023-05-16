@@ -2,7 +2,6 @@
 #+author: artjeremie
 #+date: [2022-08-07 Sun]
 #+description: Personal GNU Emacs Configuration for Windows 10
-#+startup: overview
 
 [[https://img.shields.io/github/stars/artjeremie.svg?style=social]]
 [[https://img.shields.io/github/commit-activity/m/artjeremie/dotemacs.svg?style=social]]
