@@ -22,6 +22,7 @@
   (add-to-list var '(width . (text-pixels . 1125)))
   (add-to-list var '(height . (text-pixels . 1200)))
   (add-to-list var '(font . "Iosevka-16"))
+  (add-to-list var '(alpha . 95))
   (add-to-list var '(top . -91))
   (add-to-list var '(left . 913)))
 
