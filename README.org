@@ -4,7 +4,7 @@
 #+description: Personal GNU Emacs Configuration for Windows 10
 #+startup: overview
 
-[[https://img.shields.io/github/license/artjeremie/dotemacs.svg?style=social]]
+[[https://img.shields.io/github/license/artjeremie/dotemacs.svg?style=flat-square]]
 [[https://img.shields.io/github/stars/artjeremie.svg?style=social]]
 [[https://img.shields.io/github/commit-activity/m/artjeremie/dotemacs.svg?style=social]]
 [[https://img.shields.io/tokei/lines/github/artjeremie/dotemacs.svg?style=social]]
