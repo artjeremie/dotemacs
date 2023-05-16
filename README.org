@@ -4,6 +4,11 @@
 #+description: Personal GNU Emacs Configuration for Windows 10
 #+startup: overview
 
+[[https://img.shields.io/github/license/artjeremie/dotemacs.svg?style=social]]
+[[https://img.shields.io/github/stars/artjeremie.svg?style=social]]
+[[https://img.shields.io/github/commit-activity/m/artjeremie/dotemacs.svg?style=social]]
+[[https://img.shields.io/tokei/lines/github/artjeremie/dotemacs.svg?style=social]]
+
 * Table of Contents                                                              :Toc:Quote:
 #+BEGIN_QUOTE
 - [[#overview][Overview]]
@@ -429,6 +434,7 @@ Preferred settings for =org-mode=.
 (global-set-key (kbd "C-;") '_find-notes)
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
+;; (add-hook 'org-mode-hook 'org-indent-mode)
 #+end_src
 
 ** Agenda
