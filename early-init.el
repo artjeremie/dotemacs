@@ -22,7 +22,7 @@
   (add-to-list var '(width . (text-pixels . 1125)))
   (add-to-list var '(height . (text-pixels . 1200)))
   (add-to-list var '(font . "Iosevka-16"))
-  (add-to-list var '(alpha . 95))
+  (add-to-list var '(alpha . 98))
   (add-to-list var '(top . -91))
   (add-to-list var '(left . 913)))
 
@@ -38,6 +38,7 @@
 (setq-default native-comp-async-report-warnings-errors 'silent)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'art t)
+;; (load-theme 'art t)
+(load-theme 'modus-vivendi)
 
 ;;; early-init.el ends here

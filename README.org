@@ -3,10 +3,6 @@
 #+date: [2022-08-07 Sun]
 #+description: Personal GNU Emacs Configuration for Windows 10
 
-[[https://img.shields.io/github/stars/artjeremie.svg?style=social]]
-[[https://img.shields.io/github/commit-activity/m/artjeremie/dotemacs.svg?style=social]]
-[[https://img.shields.io/tokei/lines/github/artjeremie/dotemacs.svg?style=social]]
-
 * Table of Contents                                                              :Toc:Quote:
 #+BEGIN_QUOTE
 - [[#overview][Overview]]
@@ -321,8 +317,8 @@ Emacs package for /reading/ and /sending/ mail.
 | =[G]= | elfeed-search-fetch            | /Fetch updates from server/ |
 | =[s]= | elfeed-search-live-filter      | /Update search filter/      |
 | =[c]= | elfeed-search-clear-filter     | /Clear search filter/       |
-| =[r]= | elfeed-search-untag-all-unread | /Mark as unread/            |
-| =[u]= | elfeed-search-tag-all-unread   | /Mark as read/              |
+| =[r]= | elfeed-search-untag-all-unread | /Mark as read/              |
+| =[u]= | elfeed-search-tag-all-unread   | /Mark as unread/            |
 | =[g]= | elfeed-search-update--force    | /Refresh and remove unread/ |
 | =[q]= | elfeed-search-quit-window      | /Quit elfeed/               |
 | =[v]= | _elfeed-play-with-mpv          | /Open youtube feeds in mpv/ |
@@ -496,14 +492,13 @@ Planning and scheduling.
                            (org-agenda-format-date "%A %d %b %Y")
                            (org-agenda-include-diary t)
                            (org-agenda-time-grid nil)
-                           (org-agenda-span 3)
+                           (org-agenda-span 2)
                            (org-agenda-skip-function
                             '(org-agenda-skip-entry-if 'scheduled 'deadline))
                            (org-agenda-overriding-header "Special Events")))
                   (agenda ""
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
-                           (org-agenda-include-diary t)
                            (org-scheduled-past-days 0)
                            (org-agenda-span 0)
                            (org-agenda-entry-types '(:scheduled))
@@ -512,11 +507,15 @@ Planning and scheduling.
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
                            (org-agenda-time-grid nil)
+                           (org-scheduled-past-days 0)
+                           (org-deadline-warning-days 0)
                            (org-agenda-entry-types '(:scheduled))
                            (org-agenda-overriding-header "\nWeekly Schedule")))
                   (agenda ""
                           ((org-agenda-block-separator nil)
                            (org-agenda-format-date "%A %d %b %Y")
+                           (org-agenda-time-grid nil)
+                           (org-agenda-span 0)
                            (org-deadline-past-days 60)
                            (org-deadline-warning-days 60)
                            (org-agenda-entry-types '(:deadline))
@@ -744,7 +743,10 @@ Sets background color to strings that match color names.
 Color matching parenthesis.
 
 #+begin_src emacs-lisp
+(add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
 #+end_src
 
 ** Emoji
